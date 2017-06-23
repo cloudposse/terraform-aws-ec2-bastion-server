@@ -226,7 +226,7 @@ resource "aws_instance" "default" {
 }
 
 module "dns" {
-  source    = "../hostname"
+  source    = "git::https://github.com/cloudposse/tf-hostname.git?ref=init"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
