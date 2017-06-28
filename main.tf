@@ -1,16 +1,13 @@
 # Define composite variables for resources
-resource "null_resource" "default" {
-  triggers = {
-    id = "${lower(format("%v-%v-%v", var.namespace, var.stage, var.name))}"
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
+module "label" {
+  source    = "git::https://github.com/cloudposse/tf_label.git?ref=init"
+  namespace = "${var.namespace}"
+  name      = "${var.name}"
+  stage     = "${var.stage}"
 }
 
 resource "aws_iam_instance_profile" "default" {
-  name = "${null_resource.default.triggers.id}"
+  name = "${module.label.id}"
   role = "${aws_iam_role.default.name}"
 }
 
@@ -32,7 +29,7 @@ data "aws_iam_policy_document" "default" {
 }
 
 resource "aws_iam_role" "default" {
-  name = "${null_resource.default.triggers.id}"
+  name = "${module.label.id}"
   path = "/"
 
   assume_role_policy = "${data.aws_iam_policy_document.default.json}"
@@ -40,7 +37,7 @@ resource "aws_iam_role" "default" {
 
 ## IAM Role Policy that allows access to S3
 resource "aws_iam_policy" "s3" {
-  name = "${null_resource.default.triggers.id}-s3"
+  name = "${module.label.id}-s3"
 
   lifecycle {
     create_before_destroy = true
@@ -107,7 +104,7 @@ data "aws_iam_policy_document" "s3-assets" {
 
 resource "aws_iam_policy" "s3-assets" {
   count = "${length(var.assets_bucket) > 0 ? 1 : 0}"
-  name  = "${null_resource.default.triggers.id}-s3-assets"
+  name  = "${module.label.id}-s3-assets"
 
   lifecycle {
     create_before_destroy = true
@@ -135,12 +132,12 @@ resource "aws_iam_role_policy_attachment" "instances" {
 }
 
 resource "aws_security_group" "default" {
-  name        = "${null_resource.default.triggers.id}"
+  name        = "${module.label.id}"
   vpc_id      = "${var.vpc_id}"
   description = "Bastion security group (only SSH inbound access is allowed)"
 
   tags {
-    Name      = "${null_resource.default.triggers.id}"
+    Name      = "${module.label.id}"
     Namespace = "${var.namespace}"
     Stage     = "${var.stage}"
   }
@@ -219,7 +216,7 @@ resource "aws_instance" "default" {
   subnet_id = "${var.subnets[0]}"
 
   tags {
-    Name      = "${null_resource.default.triggers.id}"
+    Name      = "${module.label.id}"
     Namespace = "${var.namespace}"
     Stage     = "${var.stage}"
   }
