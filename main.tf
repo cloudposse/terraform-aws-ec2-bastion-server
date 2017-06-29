@@ -1,17 +1,20 @@
 # Define composite variables for resources
 module "label" {
-  source    = "git::https://github.com/cloudposse/tf_label.git?ref=init"
+  source    = "git::https://github.com/cloudposse/tf_label.git?ref=provider"
+  provider  = "${var.provider}"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
 }
 
 resource "aws_iam_instance_profile" "default" {
+  provider  = "${var.provider}"
   name = "${module.label.id}"
   role = "${aws_iam_role.default.name}"
 }
 
 data "aws_iam_policy_document" "default" {
+  provider  = "${var.provider}"
   statement {
     sid = ""
 
@@ -29,6 +32,7 @@ data "aws_iam_policy_document" "default" {
 }
 
 resource "aws_iam_role" "default" {
+  provider  = "${var.provider}"
   name = "${module.label.id}"
   path = "/"
 
@@ -37,6 +41,7 @@ resource "aws_iam_role" "default" {
 
 ## IAM Role Policy that allows access to S3
 resource "aws_iam_policy" "s3" {
+  provider  = "${var.provider}"
   name = "${module.label.id}-s3"
 
   lifecycle {
@@ -47,6 +52,7 @@ resource "aws_iam_policy" "s3" {
 }
 
 data "aws_iam_policy_document" "s3" {
+  provider  = "${var.provider}"
   statement {
     actions = [
       "s3:ListAllMyBuckets",
@@ -79,11 +85,13 @@ data "aws_iam_policy_document" "s3" {
 }
 
 resource "aws_iam_role_policy_attachment" "s3" {
+  provider  = "${var.provider}"
   role       = "${aws_iam_role.default.name}"
   policy_arn = "${aws_iam_policy.s3.arn}"
 }
 
 data "aws_iam_policy_document" "s3-assets" {
+  provider  = "${var.provider}"
   statement {
     actions = [
       "s3:GetObject",
@@ -103,6 +111,7 @@ data "aws_iam_policy_document" "s3-assets" {
 }
 
 resource "aws_iam_policy" "s3-assets" {
+  provider  = "${var.provider}"
   count = "${length(var.assets_bucket) > 0 ? 1 : 0}"
   name  = "${module.label.id}-s3-assets"
 
@@ -114,24 +123,28 @@ resource "aws_iam_policy" "s3-assets" {
 }
 
 resource "aws_iam_role_policy_attachment" "s3-assets" {
+  provider  = "${var.provider}"
   count      = "${length(var.assets_bucket) > 0 ? 1 : 0}"
   role       = "${aws_iam_role.default.name}"
   policy_arn = "${aws_iam_policy.s3-assets.arn}"
 }
 
 resource "aws_iam_role_policy_attachment" "ssm" {
+  provider  = "${var.provider}"
   role       = "${aws_iam_role.default.name}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
   depends_on = ["aws_iam_role.default"]
 }
 
 resource "aws_iam_role_policy_attachment" "instances" {
+  provider  = "${var.provider}"
   role       = "${aws_iam_role.default.name}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
   depends_on = ["aws_iam_role.default"]
 }
 
 resource "aws_security_group" "default" {
+  provider  = "${var.provider}"
   name        = "${module.label.id}"
   vpc_id      = "${var.vpc_id}"
   description = "Bastion security group (only SSH inbound access is allowed)"
@@ -165,10 +178,12 @@ resource "aws_security_group" "default" {
 }
 
 data "aws_route53_zone" "domain" {
+  provider  = "${var.provider}"
   zone_id = "${var.zone_id}"
 }
 
 data "template_file" "user_data" {
+  provider  = "${var.provider}"
   template = "${file("${path.module}/${var.user_data_file}")}"
 
   vars {
@@ -199,6 +214,7 @@ data "template_file" "user_data" {
 }
 
 resource "aws_instance" "default" {
+  provider  = "${var.provider}"
   ami           = "${var.ami}"
   instance_type = "${var.instance_type}"
 
@@ -223,7 +239,8 @@ resource "aws_instance" "default" {
 }
 
 module "dns" {
-  source    = "git::https://github.com/cloudposse/tf_hostname.git?ref=init"
+  source    = "git::https://github.com/cloudposse/tf_hostname.git?ref=provider"
+  provider  = "${var.provider}"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
