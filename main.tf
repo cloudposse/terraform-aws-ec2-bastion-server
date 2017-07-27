@@ -75,11 +75,29 @@ data "aws_route53_zone" "domain" {
 data "template_file" "user_data" {
   template = <<EOF
 #!/usr/bin/env bash
+
+apt-get update
+apt-get -y install figlet
+
+# Generate system banner
+figlet "${wellcome_message}" > /etc/motd
+
+# Setup DNS Search domains
+echo 'search ${search_domains}' > '/etc/resolvconf/resolv.conf.d/base'
+resolvconf -u
+
+# Setup local vanity hostname
+echo '${hostname}' | sed 's/\.$//' > /etc/hostname
+hostname `cat /etc/hostname`
+
 $${user_data}
 EOF
 
   vars {
-    user_data = "${join("\n", var.user_data)}"
+    user_data        = "${join("\n", var.user_data)}"
+    wellcome_message = "${var.stage}"
+    hostname                    = "${var.name}.${data.aws_route53_zone.domain.name}"
+    search_domains              = "${data.aws_route53_zone.domain.name}"
   }
 }
 
