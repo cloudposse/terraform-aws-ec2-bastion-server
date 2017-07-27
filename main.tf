@@ -11,6 +11,13 @@ resource "aws_iam_instance_profile" "default" {
   role = "${aws_iam_role.default.name}"
 }
 
+resource "aws_iam_role" "default" {
+  name = "${module.label.id}"
+  path = "/"
+
+  assume_role_policy = "${data.aws_iam_policy_document.default.json}"
+}
+
 data "aws_iam_policy_document" "default" {
   statement {
     sid = ""
@@ -26,109 +33,6 @@ data "aws_iam_policy_document" "default" {
 
     effect = "Allow"
   }
-}
-
-resource "aws_iam_role" "default" {
-  name = "${module.label.id}"
-  path = "/"
-
-  assume_role_policy = "${data.aws_iam_policy_document.default.json}"
-}
-
-## IAM Role Policy that allows access to S3
-resource "aws_iam_policy" "s3" {
-  name = "${module.label.id}-s3"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  policy = "${data.aws_iam_policy_document.s3.json}"
-}
-
-data "aws_iam_policy_document" "s3" {
-  statement {
-    actions = [
-      "s3:ListAllMyBuckets",
-    ]
-
-    effect = "Allow"
-
-    resources = [
-      "arn:aws:s3:::*",
-    ]
-  }
-
-  statement {
-    actions = [
-      "s3:GetObject",
-      "s3:PutObjectAcl",
-      "s3:PutObject",
-      "s3:ListBucket",
-      "s3:DeleteObject",
-    ]
-
-    effect = "Allow"
-
-    resources = [
-      "arn:aws:s3:::${var.backup_bucket}",
-      "arn:aws:s3:::${var.backup_bucket}/*",
-      "arn:aws:s3:::${lower(format("%v-%v*",    var.namespace, var.stage))}",
-    ]
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "s3" {
-  role       = "${aws_iam_role.default.name}"
-  policy_arn = "${aws_iam_policy.s3.arn}"
-}
-
-data "aws_iam_policy_document" "s3-assets" {
-  statement {
-    actions = [
-      "s3:GetObject",
-      "s3:PutObjectAcl",
-      "s3:PutObject",
-      "s3:ListBucket",
-      "s3:DeleteObject",
-    ]
-
-    effect = "Allow"
-
-    resources = [
-      "arn:aws:s3:::${var.assets_bucket}",
-      "arn:aws:s3:::${var.assets_bucket}/*",
-    ]
-  }
-}
-
-resource "aws_iam_policy" "s3-assets" {
-  count = "${length(var.assets_bucket) > 0 ? 1 : 0}"
-  name  = "${module.label.id}-s3-assets"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  policy = "${data.aws_iam_policy_document.s3-assets.json}"
-}
-
-resource "aws_iam_role_policy_attachment" "s3-assets" {
-  count      = "${length(var.assets_bucket) > 0 ? 1 : 0}"
-  role       = "${aws_iam_role.default.name}"
-  policy_arn = "${aws_iam_policy.s3-assets.arn}"
-}
-
-resource "aws_iam_role_policy_attachment" "ssm" {
-  role       = "${aws_iam_role.default.name}"
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
-  depends_on = ["aws_iam_role.default"]
-}
-
-resource "aws_iam_role_policy_attachment" "instances" {
-  role       = "${aws_iam_role.default.name}"
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
-  depends_on = ["aws_iam_role.default"]
 }
 
 resource "aws_security_group" "default" {
@@ -169,32 +73,13 @@ data "aws_route53_zone" "domain" {
 }
 
 data "template_file" "user_data" {
-  template = "${file("${path.module}/${var.user_data_file}")}"
+  template = <<EOF
+#!/usr/bin/env bash
+$${user_data}
+EOF
 
   vars {
-    ssh_user            = "${var.ssh_user}"
-    github_api_token    = "${var.github_api_token}"
-    github_organization = "${var.github_organization}"
-    github_team         = "${var.github_team}"
-    db_cluster_name     = "${var.db_cluster_name}"
-    db_name             = "${var.db_name}"
-    db_user             = "${var.db_user}"
-    db_password         = "${var.db_password}"
-    db_host             = "${var.db_host}"
-    db_host_replicas    = "${var.db_host_replicas}"
-    namespace           = "${var.namespace}"
-    name                = "${var.name}"
-    stage               = "${var.stage}"
-    region              = "${var.ssm_region}"
-    app                 = "${var.ssm_app}"
-
-    hostname                    = "${var.name}.${data.aws_route53_zone.domain.name}"
-    search_domains              = "${data.aws_route53_zone.domain.name}"
-    assets_backup_enabled       = "${var.assets_backup_enabled}"
-    assets_backup_frequency     = "${var.assets_backup_frequency}"
-    assets_bucket               = "${var.assets_bucket}"
-    additional_user_data_script = "${var.additional_user_data_script}"
-    efs_host                    = "${var.efs_host}"
+    user_data = "${join("\n", var.user_data)}"
   }
 }
 
