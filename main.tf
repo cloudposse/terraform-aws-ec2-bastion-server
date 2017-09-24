@@ -1,6 +1,6 @@
 # Define composite variables for resources
 module "label" {
-  source    = "git::https://github.com/cloudposse/tf_label.git?ref=tags/0.1.0"
+  source    = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.2.1"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
@@ -40,11 +40,7 @@ resource "aws_security_group" "default" {
   vpc_id      = "${var.vpc_id}"
   description = "Bastion security group (only SSH inbound access is allowed)"
 
-  tags {
-    Name      = "${module.label.id}"
-    Namespace = "${var.namespace}"
-    Stage     = "${var.stage}"
-  }
+  tags = "${module.label.tags}"
 
   ingress {
     protocol  = "tcp"
@@ -76,11 +72,11 @@ data "template_file" "user_data" {
   template = "${file("${path.module}/user_data.sh")}"
 
   vars {
-    user_data        = "${join("\n", var.user_data)}"
-    welcome_message  = "${var.stage}"
-    hostname         = "${var.name}.${data.aws_route53_zone.domain.name}"
-    search_domains   = "${data.aws_route53_zone.domain.name}"
-    ssh_user         = "${var.ssh_user}"
+    user_data       = "${join("\n", var.user_data)}"
+    welcome_message = "${var.stage}"
+    hostname        = "${var.name}.${data.aws_route53_zone.domain.name}"
+    search_domains  = "${data.aws_route53_zone.domain.name}"
+    ssh_user        = "${var.ssh_user}"
   }
 }
 
@@ -101,15 +97,11 @@ resource "aws_instance" "default" {
 
   subnet_id = "${var.subnets[0]}"
 
-  tags {
-    Name      = "${module.label.id}"
-    Namespace = "${var.namespace}"
-    Stage     = "${var.stage}"
-  }
+  tags = "${module.label.tags}"
 }
 
 module "dns" {
-  source    = "git::https://github.com/cloudposse/tf_hostname.git?ref=tags/0.1.0"
+  source    = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.1.1"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
