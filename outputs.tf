@@ -1,5 +1,5 @@
 output "instance_id" {
-  value = "${aws.instance.default.id}"
+  value = "${aws_instance.default.id}"
 }
 
 output "ssh_user" {
