@@ -51,8 +51,7 @@ variable "key_name" {
 }
 
 variable "ssh_user" {
-  default     = "ubuntu"
-  description = "User that used to execute backup cron"
+  description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
 }
 
 variable "security_groups" {
