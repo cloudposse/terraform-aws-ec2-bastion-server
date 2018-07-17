@@ -1,53 +1,65 @@
 variable "namespace" {
-  default = "global"
+  default     = "global"
+  description = "Namespace (e.g. `cp` or `cloudposse`)"
 }
 
 variable "stage" {
-  default = "default"
+  default     = "default"
+  description = "Stage (e.g. `prod`, `dev`, `staging`)"
 }
 
 variable "name" {
-  default = "bastion"
+  default     = "bastion"
+  description = "The Name of the application or solution  (e.g. `bastion` or `portal`)"
 }
 
 variable "zone_id" {
-  default = ""
+  default     = ""
+  description = "Route53 DNS Zone id"
 }
 
 variable "instance_type" {
-  default = "t2.micro"
+  default     = "t2.micro"
+  description = "Elastic cache instance type"
 }
 
 variable "ami" {
-  default = "ami-efd0428f"
+  default     = "ami-efd0428f"
+  description = "the AMI to use"
 }
 
 variable "vpc_id" {
-  default = ""
+  default     = ""
+  description = "VPC ID"
 }
 
 variable "subnets" {
-  type    = "list"
-  default = []
+  type        = "list"
+  default     = []
+  description = "AWS subnet ids"
 }
 
 variable "user_data" {
-  type    = "list"
-  default = []
+  type        = "list"
+  default     = []
+  description = "User data scripts content"
 }
 
 variable "key_name" {
-  default = ""
+  default     = ""
+  description = "Key name"
 }
 
 variable "ssh_user" {
-  default = "ubuntu"
+  description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
 }
 
 variable "security_groups" {
-  type = "list"
+  type        = "list"
+  description = "AWS security group ids"
 }
 
 variable "user_data_file" {
-  default = "user_data.sh"
+  default     = "user_data.sh"
+  description = "User data file"
 }
