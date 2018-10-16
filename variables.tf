@@ -59,6 +59,14 @@ variable "security_groups" {
   description = "AWS security group ids"
 }
 
+variable "allowed_cidr_blocks" {
+  type        = "list"
+  description = "A list of CIDR blocks allowed to connect"
+  default = [
+    "0.0.0.0/0"
+  ]
+}
+
 variable "user_data_file" {
   default     = "user_data.sh"
   description = "User data file"
