@@ -9,6 +9,7 @@
 | name | The Name of the application or solution  (e.g. `bastion` or `portal`) | string | `bastion` | no |
 | namespace | Namespace (e.g. `cp` or `cloudposse`) | string | `global` | no |
 | security_groups | AWS security group ids | list | - | yes |
+| allowed_cidr_blocks | A list of CIDR blocks allowed to connect | list | ["0.0.0.0/0"] | no |
 | ssh_user | Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems | string | - | yes |
 | stage | Stage (e.g. `prod`, `dev`, `staging`) | string | `default` | no |
 | subnets | AWS subnet ids | list | `<list>` | no |
