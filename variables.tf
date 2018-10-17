@@ -32,21 +32,25 @@ variable "tags" {
 }
 
 variable "zone_id" {
+  type        = "string"
   default     = ""
   description = "Route53 DNS Zone ID"
 }
 
 variable "instance_type" {
+  type        = "string"
   default     = "t2.micro"
   description = "Elastic cache instance type"
 }
 
 variable "ami" {
+  type        = "string"
   default     = "ami-efd0428f"
   description = "AMI to use"
 }
 
 variable "vpc_id" {
+  type        = "string"
   description = "VPC ID"
 }
 
@@ -62,11 +66,13 @@ variable "user_data" {
 }
 
 variable "key_name" {
+  type        = "string"
   default     = ""
   description = "Key name"
 }
 
 variable "ssh_user" {
+  type        = "string"
   description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
 }
 
@@ -85,6 +91,7 @@ variable "allowed_cidr_blocks" {
 }
 
 variable "user_data_file" {
+  type        = "string"
   default     = "user_data.sh"
   description = "User data file"
 }
