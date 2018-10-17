@@ -1,21 +1,39 @@
 variable "namespace" {
-  default     = "global"
-  description = "Namespace (e.g. `cp` or `cloudposse`)"
+  description = "Namespace (e.g. `eg` or `cp`)"
+  type        = "string"
 }
 
 variable "stage" {
-  default     = "default"
   description = "Stage (e.g. `prod`, `dev`, `staging`)"
+  type        = "string"
 }
 
 variable "name" {
-  default     = "bastion"
-  description = "The Name of the application or solution  (e.g. `bastion` or `portal`)"
+  description = "Name  (e.g. `app` or `bastion`)"
+  type        = "string"
+}
+
+variable "delimiter" {
+  type        = "string"
+  default     = "-"
+  description = "Delimiter to be used between `namespace`, `stage`, `name` and `attributes`"
+}
+
+variable "attributes" {
+  type        = "list"
+  default     = []
+  description = "Additional attributes (e.g. `1`)"
+}
+
+variable "tags" {
+  type        = "map"
+  default     = {}
+  description = "Additional tags (e.g. map('BusinessUnit`,`XYZ`)"
 }
 
 variable "zone_id" {
   default     = ""
-  description = "Route53 DNS Zone id"
+  description = "Route53 DNS Zone ID"
 }
 
 variable "instance_type" {
@@ -25,24 +43,22 @@ variable "instance_type" {
 
 variable "ami" {
   default     = "ami-efd0428f"
-  description = "the AMI to use"
+  description = "AMI to use"
 }
 
 variable "vpc_id" {
-  default     = ""
   description = "VPC ID"
 }
 
 variable "subnets" {
   type        = "list"
-  default     = []
-  description = "AWS subnet ids"
+  description = "AWS subnet IDs"
 }
 
 variable "user_data" {
   type        = "list"
   default     = []
-  description = "User data scripts content"
+  description = "User data content"
 }
 
 variable "key_name" {
@@ -56,7 +72,7 @@ variable "ssh_user" {
 
 variable "security_groups" {
   type        = "list"
-  description = "AWS security group ids"
+  description = "AWS security group IDs"
 }
 
 variable "allowed_cidr_blocks" {
