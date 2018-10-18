@@ -33,7 +33,7 @@ related:
     description: "🔒Secure Bastion implemented as Docker Container running Alpine Linux with Google Authenticator & DUO MFA support"
     url: "https://github.com/cloudposse/bastion"
   - name: "terraform-aws-ec2-instance"
-    description: "Terraform Module for providing a general EC2 instance provisioned by Ansible"
+    description: "Terraform module for providing a general EC2 instance provisioned by Ansible"
     url: "https://github.com/cloudposse/terraform-aws-ec2-instance"
   - name: "terraform-aws-ec2-ami-backup"
     description: "Terraform module for automatic & scheduled AMI creation"
@@ -49,6 +49,8 @@ include:
 
 # Contributors to this project
 contributors:
+  - name: "Erik Osterman"
+    github: "osterman"
   - name: "Andriy Knysh"
     github: "aknysh"
   - name: "Igor Rodionov"
