@@ -7,6 +7,18 @@
 # Name of this project
 name: terraform-aws-ec2-bastion-server
 
+# Tags of this project
+tags:
+  - aws
+  - terraform
+  - terraform-modules
+  - security
+  - bastion
+
+# Categories of this project
+categories:
+  - terraform-modules/security
+
 # Logo for this project
 #logo: docs/logo.png
 
