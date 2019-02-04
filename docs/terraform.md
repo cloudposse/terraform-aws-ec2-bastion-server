@@ -11,7 +11,7 @@
 | key_name | Key name | string | `` | no |
 | name | Name  (e.g. `app` or `bastion`) | string | - | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | string | - | yes |
-| security_groups | AWS security group IDs | list | - | yes |
+| security_groups | Allowed AWS security group IDs (inbound ssh) | list | - | yes |
 | ssh_user | Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems | string | - | yes |
 | stage | Stage (e.g. `prod`, `dev`, `staging`) | string | - | yes |
 | subnets | AWS subnet IDs | list | - | yes |
