@@ -1,88 +1,88 @@
 variable "namespace" {
   description = "Namespace (e.g. `eg` or `cp`)"
-  type        = "string"
+  type        = string
 }
 
 variable "stage" {
   description = "Stage (e.g. `prod`, `dev`, `staging`)"
-  type        = "string"
+  type        = string
 }
 
 variable "name" {
   description = "Name  (e.g. `app` or `bastion`)"
-  type        = "string"
+  type        = string
 }
 
 variable "delimiter" {
-  type        = "string"
+  type        = string
   default     = "-"
   description = "Delimiter to be used between `namespace`, `stage`, `name` and `attributes`"
 }
 
 variable "attributes" {
-  type        = "list"
+  type        = list(string)
   default     = []
   description = "Additional attributes (e.g. `1`)"
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   default     = {}
   description = "Additional tags (e.g. map('BusinessUnit`,`XYZ`)"
 }
 
 variable "zone_id" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "Route53 DNS Zone ID"
 }
 
 variable "instance_type" {
-  type        = "string"
+  type        = string
   default     = "t2.micro"
   description = "Elastic cache instance type"
 }
 
 variable "ami" {
-  type        = "string"
+  type        = string
   default     = "ami-efd0428f"
   description = "AMI to use"
 }
 
 variable "vpc_id" {
-  type        = "string"
+  type        = string
   description = "VPC ID"
 }
 
 variable "subnets" {
-  type        = "list"
+  type        = list(string)
   description = "AWS subnet IDs"
 }
 
 variable "user_data" {
-  type        = "list"
+  type        = list(string)
   default     = []
   description = "User data content"
 }
 
 variable "key_name" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "Key name"
 }
 
 variable "ssh_user" {
-  type        = "string"
+  type        = string
   description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
 }
 
 variable "security_groups" {
-  type        = "list"
+  type        = list(string)
   description = "AWS security group IDs"
 }
 
 variable "allowed_cidr_blocks" {
-  type        = "list"
+  type        = list(string)
   description = "A list of CIDR blocks allowed to connect"
 
   default = [
@@ -91,7 +91,8 @@ variable "allowed_cidr_blocks" {
 }
 
 variable "user_data_file" {
-  type        = "string"
+  type        = string
   default     = "user_data.sh"
   description = "User data file"
 }
+
