@@ -1,5 +1,5 @@
 module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.3.3"
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.15.0"
   namespace  = var.namespace
   stage      = var.stage
   name       = var.name
@@ -49,7 +49,7 @@ resource "aws_security_group" "default" {
     from_port = 22
     to_port   = 22
 
-    cidr_blocks = [var.allowed_cidr_blocks]
+    cidr_blocks = var.allowed_cidr_blocks
   }
 
   ingress {

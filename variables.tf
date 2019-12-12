@@ -82,10 +82,10 @@ variable "security_groups" {
 }
 
 variable "allowed_cidr_blocks" {
-  //  type        = "list"
+    type        = list(string)
   description = "A list of CIDR blocks allowed to connect"
 
-  default = "0.0.0.0/0"
+  default = ["0.0.0.0/0"]
 }
 
 variable "user_data_file" {
