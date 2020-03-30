@@ -7,7 +7,8 @@
 | ami | AMI to use | string | `ami-efd0428f` | no |
 | attributes | Additional attributes (e.g. `1`) | list | `<list>` | no |
 | delimiter | Delimiter to be used between `namespace`, `stage`, `name` and `attributes` | string | `-` | no |
-| instance_type | Elastic cache instance type | string | `t2.micro` | no |
+| enabled | Set to false to prevent the module from creating any resources | bool | `true` | no |
+| instance_type | EC2 server instance type | string | `t2.micro` | no |
 | key_name | Key name | string | `` | no |
 | name | Name  (e.g. `app` or `bastion`) | string | - | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | string | - | yes |

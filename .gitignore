@@ -8,4 +8,7 @@
 *.iml
 
 .build-harness
+.test-harness
+**/.test-harness
 build-harness
+test.log

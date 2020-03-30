@@ -28,3 +28,22 @@ output "private_ip" {
   description = "Private IP of the instance"
 }
 
+output "public_subnet_cidrs" {
+  value = module.subnets.public_subnet_cidrs
+}
+
+output "private_subnet_cidrs" {
+  value = module.subnets.private_subnet_cidrs
+}
+
+output "vpc_cidr" {
+  value = module.vpc.vpc_cidr_block
+}
+
+output "key_pair_id" {
+  value = aws_key_pair.test.key_pair_id
+}
+
+output "key_name" {
+  value = aws_key_pair.test.key_name
+}
