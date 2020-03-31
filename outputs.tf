@@ -28,3 +28,8 @@ output "private_ip" {
   description = "Private IP of the instance"
 }
 
+output "hostname" {
+  value       = module.dns.hostname
+  description = "DNS hostname"
+}
+
