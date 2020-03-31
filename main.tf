@@ -109,6 +109,6 @@ module "dns" {
   name      = var.name
   zone_id   = var.zone_id
   ttl       = 60
-  records   = [aws_instance.default[0].public_dns]
+  records   = aws_instance.default.*.public_dns
 }
 
