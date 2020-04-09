@@ -104,11 +104,11 @@ resource "aws_instance" "default" {
 }
 
 module "dns" {
-  source    = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.3.0"
-  enabled   = var.enabled && var.zone_id != "" ? true : false
-  name      = var.name
-  zone_id   = var.zone_id
-  ttl       = 60
-  records   = aws_instance.default.*.public_dns
+  source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.3.0"
+  enabled = var.enabled && var.zone_id != "" ? true : false
+  name    = var.name
+  zone_id = var.zone_id
+  ttl     = 60
+  records = aws_instance.default.*.public_dns
 }
 

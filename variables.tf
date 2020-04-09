@@ -1,6 +1,7 @@
 variable "enabled" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "When disabled, module will not create any resources"
 }
 
 variable "namespace" {
@@ -84,7 +85,7 @@ variable "ssh_user" {
 variable "security_groups" {
   type        = list(string)
   description = "AWS security group IDs"
-  default = []
+  default     = []
 }
 
 variable "allowed_cidr_blocks" {
