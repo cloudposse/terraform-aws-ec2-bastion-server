@@ -82,9 +82,15 @@ variable "ssh_user" {
   description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
 }
 
+variable "ingress_security_groups" {
+  type        = list(string)
+  description = "AWS security group IDs allowed ingress to instance"
+  default     = []
+}
+
 variable "security_groups" {
   type        = list(string)
-  description = "AWS security group IDs"
+  description = "AWS security group IDs associated with instance"
   default     = []
 }
 
