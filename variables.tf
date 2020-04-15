@@ -102,10 +102,3 @@ variable "allowed_cidr_blocks" {
     "0.0.0.0/0",
   ]
 }
-
-variable "user_data_file" {
-  type        = string
-  default     = "user_data.sh"
-  description = "User data file"
-}
-

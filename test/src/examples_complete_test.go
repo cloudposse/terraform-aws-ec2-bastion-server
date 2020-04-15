@@ -41,8 +41,9 @@ func TestExamplesComplete(t *testing.T) {
 	assert.Equal(t, []string{"172.16.128.0/18", "172.16.192.0/18"}, publicSubnetCidrs)
 
 	// Run `terraform output` to get the value of an output variable
-	sshKeyName := terraform.OutputList(t, terraformOptions, "key_name")
+	keyName := terraform.Output(t, terraformOptions, "key_name")
+
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "ec2-bastion-test", sshKeyName)
+	assert.Equal(t, "eg-test-ec2-bastion-ssh-key", keyName)
 
 }

@@ -7,8 +7,11 @@
 .idea
 *.iml
 
+# Test/build
 .build-harness
 .test-harness
 **/.test-harness
 build-harness
 test.log
+test/src/vendor/
+test/src/.gopath/
