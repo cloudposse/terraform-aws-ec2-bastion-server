@@ -8,7 +8,7 @@ stage = "test"
 
 name = "ec2-bastion"
 
-ami = "ami-0f56279347d2fa43e"
+ami = "ami-01237fce26136c8cc"
 
 instance_type = "t3a.nano"
 
