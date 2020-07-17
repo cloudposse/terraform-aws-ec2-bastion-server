@@ -47,11 +47,11 @@ module "ec2_bastion" {
   tags       = var.tags
   attributes = var.attributes
 
-  security_groups = compact(concat([module.vpc.vpc_default_security_group_id], var.security_groups))
+  security_groups         = compact(concat([module.vpc.vpc_default_security_group_id], var.security_groups))
   ingress_security_groups = var.ingress_security_groups
-  subnets         = module.subnets.public_subnet_ids
-  ssh_user        = var.ssh_user
-  key_name        = module.aws_key_pair.key_name
+  subnets                 = module.subnets.public_subnet_ids
+  ssh_user                = var.ssh_user
+  key_name                = module.aws_key_pair.key_name
 
   user_data = var.user_data
 
