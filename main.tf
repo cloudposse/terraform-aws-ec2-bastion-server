@@ -78,7 +78,7 @@ data "template_file" "user_data" {
 
   vars = {
     user_data       = join("\n", var.user_data)
-    welcome_message = "${var.stage} ${var.environment}"
+    welcome_message = join(" / ", compact([var.stage, var.environment]))
     hostname        = "${var.name}.${join("", data.aws_route53_zone.domain.*.name)}"
     search_domains  = join("", data.aws_route53_zone.domain.*.name)
     ssh_user        = var.ssh_user
