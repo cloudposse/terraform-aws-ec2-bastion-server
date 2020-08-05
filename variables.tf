@@ -102,3 +102,9 @@ variable "allowed_cidr_blocks" {
     "0.0.0.0/0",
   ]
 }
+
+variable "egress_allowed" {
+  type        = bool
+  default     = false
+  description = "Allow all egress traffic from instance"
+}
