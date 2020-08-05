@@ -1,11 +1,12 @@
 module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
-  namespace  = var.namespace
-  stage      = var.stage
-  name       = var.name
-  delimiter  = var.delimiter
-  attributes = var.attributes
-  tags       = var.tags
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
+  namespace   = var.namespace
+  environment = var.environment
+  stage       = var.stage
+  name        = var.name
+  delimiter   = var.delimiter
+  attributes  = var.attributes
+  tags        = var.tags
 }
 
 resource "aws_iam_instance_profile" "default" {
@@ -77,7 +78,7 @@ data "template_file" "user_data" {
 
   vars = {
     user_data       = join("\n", var.user_data)
-    welcome_message = var.stage
+    welcome_message = "${var.stage} ${var.environment}"
     hostname        = "${var.name}.${join("", data.aws_route53_zone.domain.*.name)}"
     search_domains  = join("", data.aws_route53_zone.domain.*.name)
     ssh_user        = var.ssh_user
@@ -111,4 +112,3 @@ module "dns" {
   ttl     = 60
   records = aws_instance.default.*.public_dns
 }
-
