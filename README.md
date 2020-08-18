@@ -81,7 +81,7 @@ Available targets:
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.0, < 0.14.0 |
+| terraform | >= 0.12.0 |
 | aws | ~> 2.55 |
 | null | ~> 2.1 |
 | template | ~> 2.1 |
