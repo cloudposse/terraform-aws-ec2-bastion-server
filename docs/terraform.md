@@ -1,3 +1,4 @@
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
@@ -22,6 +23,7 @@
 | ami | AMI to use | `string` | `"ami-efd0428f"` | no |
 | attributes | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
 | delimiter | Delimiter to be used between `namespace`, `stage`, `name` and `attributes` | `string` | `"-"` | no |
+| egress\_allowed | Allow all egress traffic from instance | `bool` | `false` | no |
 | enabled | When disabled, module will not create any resources | `bool` | `true` | no |
 | ingress\_security\_groups | AWS security group IDs allowed ingress to instance | `list(string)` | `[]` | no |
 | instance\_type | Elastic cache instance type | `string` | `"t2.micro"` | no |
@@ -49,3 +51,4 @@
 | security\_group\_id | Security group ID |
 | ssh\_user | SSH user |
 
+<!-- markdownlint-restore -->
