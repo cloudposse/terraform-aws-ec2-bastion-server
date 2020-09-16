@@ -1,5 +1,5 @@
 module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
   namespace  = var.namespace
   stage      = var.stage
   name       = var.name
@@ -101,10 +101,21 @@ resource "aws_instance" "default" {
   subnet_id = var.subnets[0]
 
   tags = module.label.tags
+
+  metadata_options {
+    http_endpoint               = (var.metadata_http_endpoint) ? "enabled" : "disabled"
+    http_put_response_hop_limit = var.metadata_http_put_response_hop_limit
+    http_tokens                 = (var.metadata_http_tokens_required) ? "required" : "optional"
+  }
+
+  root_block_device {
+    encrypted   = var.root_block_device_encrypted
+    volume_size = var.root_block_device_volume_size
+  }
 }
 
 module "dns" {
-  source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.5.0"
+  source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.7.0"
   enabled = var.enabled && var.zone_id != "" ? true : false
   name    = var.name
   zone_id = var.zone_id

@@ -102,3 +102,33 @@ variable "allowed_cidr_blocks" {
     "0.0.0.0/0",
   ]
 }
+
+variable "root_block_device_encrypted" {
+  type        = bool
+  default     = false
+  description = "Whether to encrypt to root block device"
+}
+
+variable "root_block_device_volume_size" {
+  type        = number
+  default     = 8
+  description = "The volume size (in GiB) to provision for the root block device. It cannot be smaller than the AMI it refers to."
+}
+
+variable "metadata_http_endpoint" {
+  type        = bool
+  default     = true
+  description = "Whether the metadata service is available"
+}
+
+variable "metadata_http_put_response_hop_limit" {
+  type        = number
+  default     = 1
+  description = "The desired HTTP PUT response hop limit (between 1 and 64) for instance metadata requests."
+}
+
+variable "metadata_http_tokens_required" {
+  type        = bool
+  default     = false
+  description = "Whether or not the metadata service requires session tokens, also referred to as Instance Metadata Service Version 2."
+}
