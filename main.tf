@@ -103,7 +103,7 @@ resource "aws_instance" "default" {
   tags = module.label.tags
 
   metadata_options {
-    http_endpoint               = (var.metadata_http_endpoint) ? "enabled" : "disabled"
+    http_endpoint               = (var.metadata_http_endpoint_enabled) ? "enabled" : "disabled"
     http_put_response_hop_limit = var.metadata_http_put_response_hop_limit
     http_tokens                 = (var.metadata_http_tokens_required) ? "required" : "optional"
   }
@@ -122,4 +122,3 @@ module "dns" {
   ttl     = 60
   records = aws_instance.default.*.public_dns
 }
-

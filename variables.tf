@@ -106,7 +106,7 @@ variable "allowed_cidr_blocks" {
 variable "root_block_device_encrypted" {
   type        = bool
   default     = false
-  description = "Whether to encrypt to root block device"
+  description = "Whether to encrypt the root block device"
 }
 
 variable "root_block_device_volume_size" {
@@ -115,7 +115,7 @@ variable "root_block_device_volume_size" {
   description = "The volume size (in GiB) to provision for the root block device. It cannot be smaller than the AMI it refers to."
 }
 
-variable "metadata_http_endpoint" {
+variable "metadata_http_endpoint_enabled" {
   type        = bool
   default     = true
   description = "Whether the metadata service is available"
