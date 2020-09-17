@@ -106,12 +106,12 @@ Available targets:
 | ingress\_security\_groups | AWS security group IDs allowed ingress to instance | `list(string)` | `[]` | no |
 | instance\_type | Elastic cache instance type | `string` | `"t2.micro"` | no |
 | key\_name | Key name | `string` | `""` | no |
-| metadata\_http\_endpoint | Whether the metadata service is available | `bool` | `true` | no |
+| metadata\_http\_endpoint\_enabled | Whether the metadata service is available | `bool` | `true` | no |
 | metadata\_http\_put\_response\_hop\_limit | The desired HTTP PUT response hop limit (between 1 and 64) for instance metadata requests. | `number` | `1` | no |
 | metadata\_http\_tokens\_required | Whether or not the metadata service requires session tokens, also referred to as Instance Metadata Service Version 2. | `bool` | `false` | no |
 | name | Name  (e.g. `app` or `bastion`) | `string` | n/a | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | `string` | n/a | yes |
-| root\_block\_device\_encrypted | Whether to encrypt to root block device | `bool` | `false` | no |
+| root\_block\_device\_encrypted | Whether to encrypt the root block device | `bool` | `false` | no |
 | root\_block\_device\_volume\_size | The volume size (in GiB) to provision for the root block device. It cannot be smaller than the AMI it refers to. | `number` | `8` | no |
 | security\_groups | AWS security group IDs associated with instance | `list(string)` | `[]` | no |
 | ssh\_user | Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems | `string` | n/a | yes |
