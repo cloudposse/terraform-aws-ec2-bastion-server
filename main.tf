@@ -94,7 +94,7 @@ resource "aws_instance" "default" {
   vpc_security_group_ids = compact(concat(aws_security_group.default.*.id, var.security_groups))
 
   iam_instance_profile        = aws_iam_instance_profile.default[0].name
-  associate_public_ip_address = true
+  associate_public_ip_address = var.associate_public_ip_address
 
   key_name = var.key_name
 

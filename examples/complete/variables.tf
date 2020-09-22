@@ -133,3 +133,9 @@ variable "metadata_http_tokens_required" {
   default     = false
   description = "Whether or not the metadata service requires session tokens, also referred to as Instance Metadata Service Version 2."
 }
+
+variable "associate_public_ip_address" {
+  type        = bool
+  default     = true
+  description = "Whether to associate public IP to the instance."
+}
