@@ -48,9 +48,10 @@ resource "aws_security_group" "default" {
   tags = module.label.tags
 
   ingress {
-    protocol  = "tcp"
-    from_port = 22
-    to_port   = 22
+    protocol    = "tcp"
+    from_port   = 22
+    to_port     = 22
+    description = "Allow SSH access"
 
     cidr_blocks = var.allowed_cidr_blocks
   }
@@ -59,6 +60,7 @@ resource "aws_security_group" "default" {
     from_port       = 0
     to_port         = 0
     protocol        = -1
+    description     = "Allow access from security group"
     security_groups = var.ingress_security_groups
   }
 
