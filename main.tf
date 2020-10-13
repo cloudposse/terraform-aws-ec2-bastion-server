@@ -1,21 +1,16 @@
 module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
-  namespace  = var.namespace
-  stage      = var.stage
-  name       = var.name
-  delimiter  = var.delimiter
-  attributes = var.attributes
-  tags       = var.tags
+  source  = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  context = module.this.context
 }
 
 resource "aws_iam_instance_profile" "default" {
-  count = var.enabled ? 1 : 0
+  count = module.this.enabled ? 1 : 0
   name  = module.label.id
   role  = aws_iam_role.default[0].name
 }
 
 resource "aws_iam_role" "default" {
-  count = var.enabled ? 1 : 0
+  count = module.this.enabled ? 1 : 0
   name  = module.label.id
   path  = "/"
 
@@ -40,7 +35,7 @@ data "aws_iam_policy_document" "default" {
 }
 
 resource "aws_security_group" "default" {
-  count       = var.enabled ? 1 : 0
+  count       = module.this.enabled ? 1 : 0
   name        = module.label.id
   vpc_id      = var.vpc_id
   description = "Bastion security group (only SSH inbound access is allowed)"
@@ -68,7 +63,7 @@ resource "aws_security_group" "default" {
 }
 
 data "aws_route53_zone" "domain" {
-  count   = var.enabled && var.zone_id != "" ? 1 : 0
+  count   = module.this.enabled && var.zone_id != "" ? 1 : 0
   zone_id = var.zone_id
 }
 
@@ -85,7 +80,7 @@ data "template_file" "user_data" {
 }
 
 resource "aws_instance" "default" {
-  count         = var.enabled ? 1 : 0
+  count         = module.this.enabled ? 1 : 0
   ami           = var.ami
   instance_type = var.instance_type
 
@@ -116,7 +111,7 @@ resource "aws_instance" "default" {
 
 module "dns" {
   source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.7.0"
-  enabled = var.enabled && var.zone_id != "" ? true : false
+  enabled = module.this.enabled && var.zone_id != "" ? true : false
   name    = var.name
   zone_id = var.zone_id
   ttl     = 60
