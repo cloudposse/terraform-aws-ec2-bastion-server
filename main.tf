@@ -72,8 +72,8 @@ data "template_file" "user_data" {
 
   vars = {
     user_data       = join("\n", var.user_data)
-    welcome_message = var.stage
-    hostname        = "${var.name}.${join("", data.aws_route53_zone.domain.*.name)}"
+    welcome_message = module.this.stage
+    hostname        = "${module.this.name}.${join("", data.aws_route53_zone.domain.*.name)}"
     search_domains  = join("", data.aws_route53_zone.domain.*.name)
     ssh_user        = var.ssh_user
   }
@@ -112,7 +112,7 @@ resource "aws_instance" "default" {
 module "dns" {
   source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.7.0"
   enabled = module.this.enabled && var.zone_id != "" ? true : false
-  name    = var.name
+  name    = module.this.name
   zone_id = var.zone_id
   ttl     = 60
   records = aws_instance.default.*.public_dns
