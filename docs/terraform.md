@@ -20,7 +20,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | allowed\_cidr\_blocks | A list of CIDR blocks allowed to connect | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| ami | AMI to use | `string` | `"ami-efd0428f"` | no |
+| ami | AMI to use | `string` | `"ami-084ef34fdfdd7384c"` | no |
 | associate\_public\_ip\_address | Whether to associate a public IP to the instance. | `bool` | `true` | no |
 | attributes | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
 | delimiter | Delimiter to be used between `namespace`, `stage`, `name` and `attributes` | `string` | `"-"` | no |

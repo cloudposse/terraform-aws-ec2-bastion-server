@@ -58,12 +58,6 @@ variable "instance_type" {
   description = "Elastic cache instance type"
 }
 
-variable "ami" {
-  type        = string
-  default     = "ami-084ef34fdfdd7384c"
-  description = "AMI to use"
-}
-
 variable "user_data" {
   type        = list(string)
   default     = []
