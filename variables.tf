@@ -1,42 +1,3 @@
-variable "enabled" {
-  type        = bool
-  default     = true
-  description = "When disabled, module will not create any resources"
-}
-
-variable "namespace" {
-  description = "Namespace (e.g. `eg` or `cp`)"
-  type        = string
-}
-
-variable "stage" {
-  description = "Stage (e.g. `prod`, `dev`, `staging`)"
-  type        = string
-}
-
-variable "name" {
-  description = "Name  (e.g. `app` or `bastion`)"
-  type        = string
-}
-
-variable "delimiter" {
-  type        = string
-  default     = "-"
-  description = "Delimiter to be used between `namespace`, `stage`, `name` and `attributes`"
-}
-
-variable "attributes" {
-  type        = list(string)
-  default     = []
-  description = "Additional attributes (e.g. `1`)"
-}
-
-variable "tags" {
-  type        = map(string)
-  default     = {}
-  description = "Additional tags (e.g. map('BusinessUnit`,`XYZ`)"
-}
-
 variable "zone_id" {
   type        = string
   default     = ""
@@ -51,7 +12,7 @@ variable "instance_type" {
 
 variable "ami" {
   type        = string
-  default     = "ami-efd0428f"
+  default     = "ami-084ef34fdfdd7384c"
   description = "AMI to use"
 }
 
