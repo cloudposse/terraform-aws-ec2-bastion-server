@@ -1,17 +1,12 @@
-module "label" {
-  source  = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
-  context = module.this.context
-}
-
 resource "aws_iam_instance_profile" "default" {
   count = module.this.enabled ? 1 : 0
-  name  = module.label.id
+  name  = module.this.id
   role  = aws_iam_role.default[0].name
 }
 
 resource "aws_iam_role" "default" {
   count = module.this.enabled ? 1 : 0
-  name  = module.label.id
+  name  = module.this.id
   path  = "/"
 
   assume_role_policy = data.aws_iam_policy_document.default.json
@@ -36,11 +31,11 @@ data "aws_iam_policy_document" "default" {
 
 resource "aws_security_group" "default" {
   count       = module.this.enabled ? 1 : 0
-  name        = module.label.id
+  name        = module.this.id
   vpc_id      = var.vpc_id
   description = "Bastion security group (only SSH inbound access is allowed)"
 
-  tags = module.label.tags
+  tags = module.this.tags
 
   ingress {
     protocol  = "tcp"
@@ -95,7 +90,7 @@ resource "aws_instance" "default" {
 
   subnet_id = var.subnets[0]
 
-  tags = module.label.tags
+  tags = module.this.tags
 
   metadata_options {
     http_endpoint               = (var.metadata_http_endpoint_enabled) ? "enabled" : "disabled"
