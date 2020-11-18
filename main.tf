@@ -41,7 +41,7 @@ resource "aws_security_group" "default" {
     protocol    = "tcp"
     from_port   = 22
     to_port     = 22
-    description = "Allow SSH access"
+    description = "Allow ingress to groups listed in var.allowed_cidr_blocks groups"
 
     cidr_blocks = var.allowed_cidr_blocks
   }
@@ -50,7 +50,7 @@ resource "aws_security_group" "default" {
     from_port       = 0
     to_port         = 0
     protocol        = -1
-    description     = "Allow access from security group"
+    description     = "Allow ingress to groups listed in var.ingress_security groups"
     security_groups = var.ingress_security_groups
   }
 
