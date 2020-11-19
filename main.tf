@@ -112,5 +112,5 @@ module "dns" {
   name    = module.this.name
   zone_id = var.zone_id
   ttl     = 60
-  records = aws_instance.default.*.public_dns
+  records = var.associate_public_ip_address ? aws_instance.default.*.public_dns : aws_instance.default.*.private_dns
 }
