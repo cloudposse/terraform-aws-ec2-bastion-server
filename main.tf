@@ -65,6 +65,7 @@ data "aws_route53_zone" "domain" {
 }
 
 data "template_file" "user_data" {
+  count    = module.this.enabled ? 1 : 0
   template = file("${path.module}/user_data.sh")
 
   vars = {
@@ -81,7 +82,7 @@ resource "aws_instance" "default" {
   ami           = var.ami
   instance_type = var.instance_type
 
-  user_data = data.template_file.user_data.rendered
+  user_data = data.template_file.user_data[0].rendered
 
   vpc_security_group_ids = compact(concat(aws_security_group.default.*.id, var.security_groups))
 
