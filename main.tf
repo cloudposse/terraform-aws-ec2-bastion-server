@@ -46,12 +46,15 @@ resource "aws_security_group" "default" {
     cidr_blocks = var.allowed_cidr_blocks
   }
 
-  ingress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = -1
-    description     = "Allow ingress to groups listed in var.ingress_security"
-    security_groups = var.ingress_security_groups
+  dynamic "ingress" {
+    for_each = length(var.ingress_security_groups) > 0 ? [1] : []
+    content {
+      from_port       = 0
+      to_port         = 0
+      protocol        = -1
+      description     = "Allow ingress to groups listed in var.ingress_security"
+      security_groups = var.ingress_security_groups
+    }
   }
 
   lifecycle {
