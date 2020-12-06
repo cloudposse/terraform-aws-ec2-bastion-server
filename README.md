@@ -1,4 +1,6 @@
+<!-- markdownlint-disable -->
 # terraform-aws-ec2-bastion-server [![Build Status](https://travis-ci.org/cloudposse/terraform-aws-ec2-bastion-server.svg?branch=master)](https://travis-ci.org/cloudposse/terraform-aws-ec2-bastion-server) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-ec2-bastion-server.svg)](https://github.com/cloudposse/terraform-aws-ec2-bastion-server/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
+<!-- markdownlint-restore -->
 
 [![README Header][readme_header_img]][readme_header_link]
 
@@ -290,8 +292,10 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 ### Contributors
 
+<!-- markdownlint-disable -->
 |  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] | [![Andriy Knysh][aknysh_avatar]][aknysh_homepage]<br/>[Andriy Knysh][aknysh_homepage] | [![Igor Rodionov][goruha_avatar]][goruha_homepage]<br/>[Igor Rodionov][goruha_homepage] | [![Bobby Larson][karma0_avatar]][karma0_homepage]<br/>[Bobby Larson][karma0_homepage] |
 |---|---|---|---|
+<!-- markdownlint-restore -->
 
   [osterman_homepage]: https://github.com/osterman
   [osterman_avatar]: https://img.cloudposse.com/150x150/https://github.com/osterman.png
