@@ -52,7 +52,7 @@ resource "aws_security_group" "default" {
       from_port       = 0
       to_port         = 0
       protocol        = -1
-      description     = "Allow ingress to groups listed in var.ingress_security"
+      description     = "Allow ingress to groups listed in var.ingress_security_groups"
       security_groups = var.ingress_security_groups
     }
   }
