@@ -111,7 +111,8 @@ resource "aws_instance" "default" {
 }
 
 module "dns" {
-  source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.7.0"
+  source  = "cloudposse/route53-cluster-hostname/aws"
+  version = "0.7.0"
   enabled = module.this.enabled && var.zone_id != "" ? true : false
   name    = module.this.name
   zone_id = var.zone_id
