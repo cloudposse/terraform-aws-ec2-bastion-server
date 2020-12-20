@@ -99,3 +99,9 @@ variable "associate_public_ip_address" {
   default     = true
   description = "Whether to associate a public IP to the instance."
 }
+
+variable "egress_allowed" {
+  type        = bool
+  default     = false
+  description = "Allow all egress traffic from instance"
+}

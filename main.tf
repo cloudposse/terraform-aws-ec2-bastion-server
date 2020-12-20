@@ -33,27 +33,43 @@ resource "aws_security_group" "default" {
   count       = module.this.enabled ? 1 : 0
   name        = module.this.id
   vpc_id      = var.vpc_id
-  description = "Bastion security group (only SSH inbound access is allowed)"
+  description = "Bastion host security group"
 
   tags = module.this.tags
 
-  ingress {
-    protocol    = "tcp"
-    from_port   = 22
-    to_port     = 22
-    description = "Allow ingress to groups listed in var.allowed_cidr_blocks"
-
-    cidr_blocks = var.allowed_cidr_blocks
+  # Optional block; skipped if var.allowed_cidr_blocks is empty
+  dynamic "ingress" {
+    for_each = length(var.allowed_cidr_blocks) > 0 ? [1] : []
+    content {
+      protocol    = "tcp"
+      from_port   = 22
+      to_port     = 22
+      cidr_blocks = var.allowed_cidr_blocks
+      description = "Allow SSH ingress traffic from trusted CIDR Blocks"
+    }
   }
 
+  # Optional block; skipped if var.ingress_security_groups is empty
   dynamic "ingress" {
     for_each = length(var.ingress_security_groups) > 0 ? [1] : []
     content {
       from_port       = 0
       to_port         = 0
       protocol        = -1
-      description     = "Allow ingress to groups listed in var.ingress_security_groups"
       security_groups = var.ingress_security_groups
+      description     = "Allow ALL ingress traffic from trusted Security Groups"
+    }
+  }
+
+  # Optional block; skipped unless var.egress_allowed is set to true
+  dynamic "egress" {
+    for_each = var.egress_allowed ? [1] : []
+    content {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Allow ALL egress traffic"
     }
   }
 
