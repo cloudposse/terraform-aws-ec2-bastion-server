@@ -21,7 +21,7 @@ module "subnets" {
   nat_gateway_enabled  = false
   nat_instance_enabled = false
 
-  context              = module.this.context
+  context = module.this.context
 }
 
 module "aws_key_pair" {
@@ -31,7 +31,7 @@ module "aws_key_pair" {
   ssh_public_key_path = var.ssh_key_path
   generate_ssh_key    = var.generate_ssh_key
 
-  context              = module.this.context
+  context = module.this.context
 }
 
 module "ec2_bastion" {
