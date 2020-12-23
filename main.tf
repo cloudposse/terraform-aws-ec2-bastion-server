@@ -130,8 +130,8 @@ module "dns" {
   source  = "cloudposse/route53-cluster-hostname/aws"
   version = "0.9.0"
   enabled = module.this.enabled && var.zone_id != "" ? true : false
+  name    = module.this.name
   zone_id = var.zone_id
   ttl     = 60
   records = var.associate_public_ip_address ? aws_instance.default.*.public_dns : aws_instance.default.*.private_dns
-  context = module.this.context
 }
