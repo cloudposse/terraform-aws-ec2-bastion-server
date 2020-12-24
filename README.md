@@ -110,6 +110,7 @@ Available targets:
 | egress\_allowed | Allow all egress traffic from instance | `bool` | `false` | no |
 | enabled | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | environment | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
+| host\_name | The Bastion hostname created in Route53 | `string` | `"bastion"` | no |
 | id\_length\_limit | Limit `id` to this many characters.<br>Set to `0` for unlimited length.<br>Set to `null` for default, which is `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
 | ingress\_security\_groups | AWS security group IDs allowed ingress to instance | `list(string)` | `[]` | no |
 | instance\_type | Bastion instance type | `string` | `"t2.micro"` | no |

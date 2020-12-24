@@ -105,3 +105,9 @@ variable "egress_allowed" {
   default     = false
   description = "Allow all egress traffic from instance"
 }
+
+variable "host_name" {
+  type        = string
+  default     = "bastion"
+  description = "The Bastion hostname created in Route53"
+}
