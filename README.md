@@ -87,13 +87,14 @@ Available targets:
 |------|---------|
 | terraform | >= 0.12.26 |
 | aws | >= 2.55 |
+| template | >= 2.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | aws | >= 2.55 |
-| template | n/a |
+| template | >= 2.1 |
 
 ## Inputs
 
