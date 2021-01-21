@@ -8,6 +8,7 @@ resource "aws_iam_role" "default" {
   count = module.this.enabled ? 1 : 0
   name  = module.this.id
   path  = "/"
+  tags  = module.this.tags
 
   assume_role_policy = data.aws_iam_policy_document.default.json
 }
@@ -97,6 +98,8 @@ data "template_file" "user_data" {
 }
 
 resource "aws_instance" "default" {
+  #bridgecrew:skip=BC_AWS_PUBLIC_12: Skipping `EC2 Should Not Have Public IPs` check. NAT instance requires public IP.
+  #bridgecrew:skip=BC_AWS_GENERAL_31: Skipping `Ensure Instance Metadata Service Version 1 is not enabled` check until BridgeCrew support condition evaluation. See https://github.com/bridgecrewio/checkov/issues/793
   count         = module.this.enabled ? 1 : 0
   ami           = var.ami
   instance_type = var.instance_type
@@ -128,7 +131,7 @@ resource "aws_instance" "default" {
 
 module "dns" {
   source   = "cloudposse/route53-cluster-hostname/aws"
-  version  = "0.9.0"
+  version  = "0.10.0"
   enabled  = module.this.enabled && var.zone_id != "" ? true : false
   zone_id  = var.zone_id
   ttl      = 60

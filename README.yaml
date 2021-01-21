@@ -42,6 +42,7 @@ related:
 # Short description of this project
 description: |-
   Terraform module to define a generic Bastion host with parameterized `user_data`
+  **IMPORTANT:** This module provisions NAT instance with public IP.
 
 include:
   - "docs/targets.md"

@@ -66,7 +66,7 @@ variable "allowed_cidr_blocks" {
 
 variable "root_block_device_encrypted" {
   type        = bool
-  default     = false
+  default     = true
   description = "Whether to encrypt the root block device"
 }
 
@@ -90,7 +90,7 @@ variable "metadata_http_put_response_hop_limit" {
 
 variable "metadata_http_tokens_required" {
   type        = bool
-  default     = false
+  default     = true
   description = "Whether or not the metadata service requires session tokens, also referred to as Instance Metadata Service Version 2."
 }
 
