@@ -42,11 +42,28 @@ module "ec2_bastion" {
   ami           = var.ami
   instance_type = var.instance_type
 
-  security_groups         = compact(concat([module.vpc.vpc_default_security_group_id], var.security_groups))
-  ingress_security_groups = var.ingress_security_groups
-  subnets                 = module.subnets.public_subnet_ids
-  ssh_user                = var.ssh_user
-  key_name                = module.aws_key_pair.key_name
+  security_group_rules = [
+    {
+      type        = "egress"
+      from_port   = 0
+      to_port     = 65535
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Allow ALL egress traffic"
+    },
+    {
+      type                     = "ingress"
+      from_port                = 0
+      to_port                  = 65535
+      protocol                 = "-1"
+      source_security_group_id = [module.vpc.vpc_default_security_group_id]
+      description              = "Allow ALL ingress traffic from trusted Security Groups"
+    },
+  ]
+
+  subnets  = module.subnets.public_subnet_ids
+  ssh_user = var.ssh_user
+  key_name = module.aws_key_pair.key_name
 
   user_data = var.user_data
 

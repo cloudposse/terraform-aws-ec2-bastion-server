@@ -1,3 +1,7 @@
+locals {
+  security_group_enabled = module.this.enabled && var.create_default_security_group ? true : false
+}
+
 resource "aws_iam_instance_profile" "default" {
   count = module.this.enabled ? 1 : 0
   name  = module.this.id
@@ -30,53 +34,17 @@ data "aws_iam_policy_document" "default" {
   }
 }
 
-resource "aws_security_group" "default" {
-  count       = module.this.enabled ? 1 : 0
-  name        = module.this.id
-  vpc_id      = var.vpc_id
-  description = "Bastion host security group"
+module "default_sg" {
+  source          = "cloudposse/security-group/aws"
+  version         = "0.1.2"
+  use_name_prefix = var.security_group_use_name_prefix
+  rules           = var.security_group_rules
+  vpc_id          = var.vpc_id
+  description     = "Bastion host security group"
 
-  tags = module.this.tags
-
-  # Optional block; skipped if var.allowed_cidr_blocks is empty
-  dynamic "ingress" {
-    for_each = length(var.allowed_cidr_blocks) > 0 ? [1] : []
-    content {
-      protocol    = "tcp"
-      from_port   = 22
-      to_port     = 22
-      cidr_blocks = var.allowed_cidr_blocks
-      description = "Allow SSH ingress traffic from trusted CIDR Blocks"
-    }
-  }
-
-  # Optional block; skipped if var.ingress_security_groups is empty
-  dynamic "ingress" {
-    for_each = length(var.ingress_security_groups) > 0 ? [1] : []
-    content {
-      from_port       = 0
-      to_port         = 0
-      protocol        = -1
-      security_groups = var.ingress_security_groups
-      description     = "Allow ALL ingress traffic from trusted Security Groups"
-    }
-  }
-
-  # Optional block; skipped unless var.egress_allowed is set to true
-  dynamic "egress" {
-    for_each = var.egress_allowed ? [1] : []
-    content {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Allow ALL egress traffic"
-    }
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
+  enabled = local.security_group_enabled
+  name    = module.this.id
+  context = module.this.context
 }
 
 data "aws_route53_zone" "domain" {
@@ -106,7 +74,12 @@ resource "aws_instance" "default" {
 
   user_data = data.template_file.user_data[0].rendered
 
-  vpc_security_group_ids = compact(concat(aws_security_group.default.*.id, var.security_groups))
+  vpc_security_group_ids = compact(
+    sort(concat(
+      [module.default_sg.id],
+      var.additional_security_groups
+    ))
+  )
 
   iam_instance_profile        = aws_iam_instance_profile.default[0].name
   associate_public_ip_address = var.associate_public_ip_address

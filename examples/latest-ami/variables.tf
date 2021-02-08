@@ -79,25 +79,6 @@ variable "generate_ssh_key" {
   description = "Whether or not to generate an SSH key"
 }
 
-variable "security_groups" {
-  type        = list(string)
-  description = "AWS security group IDs"
-}
-
-variable "ingress_security_groups" {
-  type        = list(string)
-  description = "AWS security group IDs allowed ingress to instance"
-}
-
-variable "allowed_cidr_blocks" {
-  type        = list(string)
-  description = "A list of CIDR blocks allowed to connect"
-
-  default = [
-    "0.0.0.0/0",
-  ]
-}
-
 variable "root_block_device_encrypted" {
   type        = bool
   default     = false

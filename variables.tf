@@ -43,25 +43,41 @@ variable "ssh_user" {
   description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
 }
 
-variable "ingress_security_groups" {
-  type        = list(string)
-  description = "AWS security group IDs allowed ingress to instance"
-  default     = []
+variable "create_security_group" {
+  type        = bool
+  description = "Create Security Group"
+  default     = true
 }
 
-variable "security_groups" {
-  type        = list(string)
-  description = "AWS security group IDs associated with instance"
-  default     = []
-}
-
-variable "allowed_cidr_blocks" {
-  type        = list(string)
-  description = "A list of CIDR blocks allowed to connect"
-
+variable "security_group_rules" {
+  type = list(any)
   default = [
-    "0.0.0.0/0",
+    {
+      type        = "egress"
+      from_port   = 0
+      to_port     = 65535
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Allow ALL egress traffic"
+    }
   ]
+  description = <<-EOT
+    A list of maps of Security Group rules. 
+    The values of map is fully complated with `aws_security_group_rule` resource. 
+    To get more info see https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule .
+  EOT
+}
+
+variable "security_group_use_name_prefix" {
+  type        = bool
+  default     = false
+  description = "Whether to create a default Security Group with unique name beginning with the normalized prefix."
+}
+
+variable "additional_security_groups" {
+  description = "List of additional Security Group IDs to be allowed to connect to EC2 instance"
+  type        = list(string)
+  default     = []
 }
 
 variable "root_block_device_encrypted" {
@@ -98,12 +114,6 @@ variable "associate_public_ip_address" {
   type        = bool
   default     = true
   description = "Whether to associate a public IP to the instance."
-}
-
-variable "egress_allowed" {
-  type        = bool
-  default     = false
-  description = "Allow all egress traffic from instance"
 }
 
 variable "host_name" {

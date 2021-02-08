@@ -9,8 +9,18 @@ output "ssh_user" {
 }
 
 output "security_group_id" {
-  value       = join("", aws_security_group.default.*.id)
+  value       = module.default_sg.id
   description = "Security group ID"
+}
+
+output "security_group_arn" {
+  value       = module.default_sg.arn
+  description = "Security Group ARN"
+}
+
+output "security_group_name" {
+  value       = module.default_sg.name
+  description = "Security Group name"
 }
 
 output "role" {
