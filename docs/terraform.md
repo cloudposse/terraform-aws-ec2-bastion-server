@@ -66,7 +66,7 @@
 | root\_block\_device\_encrypted | Whether to encrypt the root block device | `bool` | `true` | no |
 | root\_block\_device\_volume\_size | The volume size (in GiB) to provision for the root block device. It cannot be smaller than the AMI it refers to. | `number` | `8` | no |
 | security\_groups | AWS security group IDs associated with instance | `list(string)` | `[]` | no |
-| ssh\_user | Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems | `string` | `"ec2-user"` | no |
+| ssh\_user | Default SSH user for this AMI. e.g. `ec2-user` for Amazon Linux and `ubuntu` for Ubuntu systems | `string` | `"ec2-user"` | no |
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | subnets | AWS subnet IDs | `list(string)` | n/a | yes |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
