@@ -18,9 +18,6 @@ github_repo: cloudposse/terraform-aws-ec2-bastion-server
 
 # Badges to display
 badges:
-  - name: "Build Status"
-    image: "https://travis-ci.org/cloudposse/terraform-aws-ec2-bastion-server.svg?branch=master"
-    url: "https://travis-ci.org/cloudposse/terraform-aws-ec2-bastion-server"
   - name: "Latest Release"
     image: "https://img.shields.io/github/release/cloudposse/terraform-aws-ec2-bastion-server.svg"
     url: "https://github.com/cloudposse/terraform-aws-ec2-bastion-server/releases/latest"
@@ -41,8 +38,7 @@ related:
 
 # Short description of this project
 description: |-
-  Terraform module to define a generic Bastion host with parameterized `user_data`
-  **IMPORTANT:** This module provisions NAT instance with public IP.
+  Terraform module to define a generic Bastion host with parameterized `user_data` and support for AWS SSM Session Manager for remote access with IAM authentication.
 
 include:
   - "docs/targets.md"
