@@ -34,7 +34,7 @@ variable "key_name" {
 
 variable "ssh_user" {
   type        = string
-  description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
+  description = "Default SSH user for this AMI. e.g. `ec2-user` for Amazon Linux and `ubuntu` for Ubuntu systems"
   default     = "ec2-user"
 }
 

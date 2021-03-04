@@ -3,11 +3,6 @@ output "instance_id" {
   description = "Instance ID"
 }
 
-output "ssh_user" {
-  value       = var.ssh_user
-  description = "SSH user"
-}
-
 output "security_group_ids" {
   value       = module.ec2_bastion.security_group_ids
   description = "Security group ID"
