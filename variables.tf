@@ -10,12 +10,6 @@ variable "instance_type" {
   description = "Bastion instance type"
 }
 
-variable "ami" {
-  type        = string
-  default     = "ami-084ef34fdfdd7384c"
-  description = "AMI to use"
-}
-
 variable "vpc_id" {
   type        = string
   description = "VPC ID"

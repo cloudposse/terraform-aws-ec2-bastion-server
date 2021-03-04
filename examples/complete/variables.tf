@@ -20,21 +20,10 @@ variable "instance_type" {
   description = "Bastion instance type"
 }
 
-variable "ami" {
-  type        = string
-  default     = "ami-084ef34fdfdd7384c"
-  description = "AMI to use"
-}
-
 variable "user_data" {
   type        = list(string)
   default     = []
   description = "User data content"
-}
-
-variable "ssh_user" {
-  type        = string
-  description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
 }
 
 variable "ssh_key_path" {
@@ -50,20 +39,6 @@ variable "generate_ssh_key" {
 variable "security_groups" {
   type        = list(string)
   description = "AWS security group IDs"
-}
-
-variable "ingress_security_groups" {
-  type        = list(string)
-  description = "AWS security group IDs allowed ingress to instance"
-}
-
-variable "allowed_cidr_blocks" {
-  type        = list(string)
-  description = "A list of CIDR blocks allowed to connect"
-
-  default = [
-    "0.0.0.0/0",
-  ]
 }
 
 variable "root_block_device_encrypted" {

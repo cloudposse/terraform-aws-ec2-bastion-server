@@ -8,8 +8,8 @@ output "ssh_user" {
   description = "SSH user"
 }
 
-output "security_group_id" {
-  value       = module.ec2_bastion.security_group_id
+output "security_group_ids" {
+  value       = module.ec2_bastion.security_group_ids
   description = "Security group ID"
 }
 
