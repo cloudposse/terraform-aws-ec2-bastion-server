@@ -44,28 +44,13 @@ data "aws_ami" "default" {
   owners = var.ami_owners
 }
 
-module "sg" {
+module "security_group" {
   source  = "cloudposse/security-group/aws"
   version = "0.1.4"
 
   description = "Bastion host security group"
-  rules = [
-    {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 0
-      protocol    = -1
-      cidr_blocks = ["0.0.0.0/0"]
-    },
-    {
-      type        = "ingress"
-      protocol    = "tcp"
-      from_port   = 22
-      to_port     = 22
-      cidr_blocks = var.allowed_cidr_blocks
-    }
-  ]
-  vpc_id = var.vpc_id
+  rules       = var.security_group_rules
+  vpc_id      = var.vpc_id
 
   enabled = module.this.enabled
   context = module.this.context
@@ -81,9 +66,9 @@ data "template_file" "user_data" {
   template = file("${path.module}/${var.user_data_template}")
 
   vars = {
-    user_data  = join("\n", var.user_data)
-    enable_ssm = var.enable_ssm
-    ssh_user   = var.ssh_user
+    user_data   = join("\n", var.user_data)
+    ssm_enabled = var.ssm_enabled
+    ssh_user    = var.ssh_user
   }
 }
 
@@ -96,7 +81,7 @@ resource "aws_instance" "default" {
 
   user_data = data.template_file.user_data[0].rendered
 
-  vpc_security_group_ids = compact(concat(module.sg.*.id, var.security_groups))
+  vpc_security_group_ids = compact(concat(module.security_group.*.id, var.security_groups))
 
   iam_instance_profile        = aws_iam_instance_profile.default[0].name
   associate_public_ip_address = var.associate_public_ip_address
@@ -116,6 +101,18 @@ resource "aws_instance" "default" {
   root_block_device {
     encrypted   = var.root_block_device_encrypted
     volume_size = var.root_block_device_volume_size
+  }
+
+  # Optional block; skipped if var.ebs_block_device_volume_size is zero
+  dynamic "ebs_block_device" {
+    for_each = var.ebs_block_device_volume_size > 0 ? [1] : []
+
+    content {
+      encrypted             = var.ebs_block_device_encrypted
+      volume_size           = var.ebs_block_device_volume_size
+      delete_on_termination = var.ebs_delete_on_termination
+      device_name           = var.ebs_block_device
+    }
   }
 }
 

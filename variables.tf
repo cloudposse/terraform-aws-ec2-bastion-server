@@ -44,15 +44,6 @@ variable "security_groups" {
   default     = []
 }
 
-variable "allowed_cidr_blocks" {
-  type        = list(string)
-  description = "A list of CIDR blocks allowed to connect"
-
-  default = [
-    "0.0.0.0/0",
-  ]
-}
-
 variable "root_block_device_encrypted" {
   type        = bool
   default     = true
@@ -89,12 +80,6 @@ variable "associate_public_ip_address" {
   description = "Whether to associate a public IP to the instance."
 }
 
-variable "egress_allowed" {
-  type        = bool
-  default     = false
-  description = "Allow all egress traffic from instance"
-}
-
 variable "host_name" {
   type        = string
   default     = "bastion"
@@ -103,7 +88,7 @@ variable "host_name" {
 
 variable "user_data_template" {
   type        = string
-  default     = "userdata/amazon-linux.sh"
+  default     = "user_data/amazon-linux.sh"
   description = "User Data template to use for provisioning EC2 Bastion Host"
 }
 
@@ -122,8 +107,57 @@ variable "ami_owners" {
   default     = ["amazon"]
 }
 
-variable "enable_ssm" {
+variable "ssm_enabled" {
   description = "Enable SSM Agent on Host."
   type        = bool
   default     = true
+}
+
+variable "security_group_rules" {
+  type = list(any)
+  default = [
+    {
+      type        = "egress"
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      type        = "ingress"
+      protocol    = "tcp"
+      from_port   = 22
+      to_port     = 22
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
+  description = <<-EOT
+    A list of maps of Security Group rules. 
+    The values of map is fully complated with `aws_security_group_rule` resource. 
+    To get more info see https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule .
+  EOT
+}
+
+variable "ebs_block_device_encrypted" {
+  type        = bool
+  default     = true
+  description = "Whether to encrypt the EBS block device"
+}
+
+variable "ebs_block_device_volume_size" {
+  type        = number
+  default     = 0
+  description = "The volume size (in GiB) to provision for the EBS block device. Creation skipped if size is 0"
+}
+
+variable "ebs_delete_on_termination" {
+  type        = bool
+  default     = true
+  description = "Whether the EBS volume should be destroyed on instance termination"
+}
+
+variable "ebs_device_name" {
+  type        = string
+  default     = "/dev/sdh"
+  description = "The name of the EBS block device to mount on the instance"
 }

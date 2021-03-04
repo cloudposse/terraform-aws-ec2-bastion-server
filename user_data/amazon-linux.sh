@@ -14,11 +14,15 @@ chown ${ssh_user}:${ssh_user} /home/${ssh_user}/.ssh/config
 ##
 ## Enable SSM
 ##
-if [ ${enable_ssm} ]
+if [ ${ssm_enabled} ]
 then
-    systemctl status amazon-ssm-agent
     systemctl enable amazon-ssm-agent
     systemctl start amazon-ssm-agent
+    systemctl status amazon-ssm-agent
+else
+    systemctl disable amazon-ssm-agent
+    systemctl stop amazon-ssm-agent
+    systemctl status amazon-ssm-agent
 fi
 
 ${user_data}
