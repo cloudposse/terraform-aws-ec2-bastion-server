@@ -86,6 +86,6 @@
 | private\_ip | Private IP of the instance |
 | public\_ip | Public IP of the instance (or EIP) |
 | role | Name of AWS IAM Role associated with the instance |
-| security\_group\_id | Security group ID |
+| security\_group\_ids | IDs on the AWS Security Groups associated with the instance |
 | ssh\_user | SSH user |
 <!-- markdownlint-restore -->
