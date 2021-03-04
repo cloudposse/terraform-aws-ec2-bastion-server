@@ -14,7 +14,7 @@ chown ${ssh_user}:${ssh_user} /home/${ssh_user}/.ssh/config
 ##
 ## Enable SSM
 ##
-if [ ${ssm_enabled} ]
+if [  "${ssm_enabled}" = "true" ]
 then
     systemctl enable amazon-ssm-agent
     systemctl start amazon-ssm-agent
