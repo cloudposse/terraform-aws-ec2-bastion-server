@@ -76,7 +76,7 @@ variable "metadata_http_tokens_required" {
 
 variable "associate_public_ip_address" {
   type        = bool
-  default     = true
+  default     = false
   description = "Whether to associate a public IP to the instance."
 }
 
