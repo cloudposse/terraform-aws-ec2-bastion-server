@@ -44,12 +44,6 @@ variable "ssh_user" {
   default     = "ec2-user"
 }
 
-variable "ingress_security_groups" {
-  type        = list(string)
-  description = "AWS security group IDs allowed ingress to instance"
-  default     = []
-}
-
 variable "security_groups" {
   type        = list(string)
   description = "AWS security group IDs associated with instance"

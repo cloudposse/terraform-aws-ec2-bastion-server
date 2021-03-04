@@ -63,12 +63,6 @@ module "sg" {
       from_port   = 22
       to_port     = 22
       cidr_blocks = var.allowed_cidr_blocks
-    },
-    {
-      from_port       = 0
-      to_port         = 0
-      protocol        = -1
-      security_groups = var.ingress_security_group
     }
   ]
   vpc_id = var.vpc_id

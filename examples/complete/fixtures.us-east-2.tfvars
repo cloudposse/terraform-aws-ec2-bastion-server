@@ -20,8 +20,6 @@ user_data = [
 
 security_groups = []
 
-ingress_security_groups = []
-
 root_block_device_encrypted = true
 
 metadata_http_tokens_required = true
