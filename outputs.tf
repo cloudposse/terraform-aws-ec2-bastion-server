@@ -8,9 +8,14 @@ output "ssh_user" {
   description = "SSH user"
 }
 
-output "security_group_id" {
-  value       = join("", aws_security_group.default.*.id)
-  description = "Security group ID"
+output "security_group_ids" {
+  description = "IDs on the AWS Security Groups associated with the instance"
+  value = compact(
+    concat(
+      formatlist("%s", module.security_group.id),
+      var.security_groups
+    )
+  )
 }
 
 output "role" {
