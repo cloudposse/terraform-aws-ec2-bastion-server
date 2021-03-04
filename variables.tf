@@ -41,6 +41,7 @@ variable "key_name" {
 variable "ssh_user" {
   type        = string
   description = "Default SSH user for this AMI. e.g. `ec2user` for Amazon Linux and `ubuntu` for Ubuntu systems"
+  default     = "ec2-user"
 }
 
 variable "ingress_security_groups" {
@@ -110,4 +111,31 @@ variable "host_name" {
   type        = string
   default     = "bastion"
   description = "The Bastion hostname created in Route53"
+}
+
+variable "user_data_template" {
+  type        = string
+  default     = "userdata/amazon-linux.sh"
+  description = "User Data template to use for provisioning EC2 Bastion Host"
+}
+
+variable "ami_filter" {
+  description = "List of maps used to create the AMI filter for the action runner AMI."
+  type        = map(list(string))
+
+  default = {
+    name = ["amzn2-ami-hvm-2.*-x86_64-ebs"]
+  }
+}
+
+variable "ami_owners" {
+  description = "The list of owners used to select the AMI of action runner instances."
+  type        = list(string)
+  default     = ["amazon"]
+}
+
+variable "enable_ssm" {
+  description = "Enable SSM Agent on Host."
+  type        = bool
+  default     = true
 }
