@@ -99,17 +99,4 @@ data "aws_iam_policy_document" "main" {
 
     resources = ["*"]
   }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:BatchGetImage"
-    ]
-
-    resources = ["*"]
-  }
 }
