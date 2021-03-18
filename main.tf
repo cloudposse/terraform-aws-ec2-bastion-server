@@ -47,7 +47,7 @@ resource "aws_instance" "default" {
   ami           = data.aws_ami.default.id
   instance_type = var.instance_type
 
-  user_data = data.template_file.user_data[0].rendered
+  user_data = length(var.user_data_base64) > 0 ? var.user_data_base64 : data.template_file.user_data[0].rendered
 
   vpc_security_group_ids = compact(concat(module.security_group.*.id, var.security_groups))
 
