@@ -74,7 +74,8 @@
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | subnets | AWS subnet IDs | `list(string)` | n/a | yes |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
-| user\_data | User data content | `list(string)` | `[]` | no |
+| user\_data | User data content. Will be ignored if `user_data_base64` is set | `list(string)` | `[]` | no |
+| user\_data\_base64 | The Base64-encoded user data to provide when launching the instances. If this is set then `user_data` will not be used. | `string` | `""` | no |
 | user\_data\_template | User Data template to use for provisioning EC2 Bastion Host | `string` | `"user_data/amazon-linux.sh"` | no |
 | vpc\_id | VPC ID | `string` | n/a | yes |
 | zone\_id | Route53 DNS Zone ID | `string` | `""` | no |
