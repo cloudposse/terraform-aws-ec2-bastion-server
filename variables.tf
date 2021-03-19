@@ -23,7 +23,13 @@ variable "subnets" {
 variable "user_data" {
   type        = list(string)
   default     = []
-  description = "User data content"
+  description = "User data content. Will be ignored if `user_data_base64` is set"
+}
+
+variable "user_data_base64" {
+  type        = string
+  description = "The Base64-encoded user data to provide when launching the instances. If this is set then `user_data` will not be used."
+  default     = ""
 }
 
 variable "key_name" {
@@ -160,4 +166,10 @@ variable "ebs_device_name" {
   type        = string
   default     = "/dev/sdh"
   description = "The name of the EBS block device to mount on the instance"
+}
+
+variable "instance_profile" {
+  type        = string
+  description = "A pre-defined profile to attach to the instance (default is to build our own)"
+  default     = ""
 }

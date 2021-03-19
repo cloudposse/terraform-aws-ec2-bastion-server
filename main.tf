@@ -1,3 +1,8 @@
+locals {
+  instance_profile_count = module.this.enabled ? (length(var.instance_profile) > 0 ? 0 : 1) : 0
+  instance_profile       = local.instance_profile_count == 0 ? var.instance_profile : join("", aws_iam_instance_profile.default.*.name)
+}
+
 data "aws_ami" "default" {
   most_recent = "true"
 
@@ -47,11 +52,11 @@ resource "aws_instance" "default" {
   ami           = data.aws_ami.default.id
   instance_type = var.instance_type
 
-  user_data = data.template_file.user_data[0].rendered
+  user_data = length(var.user_data_base64) > 0 ? var.user_data_base64 : data.template_file.user_data[0].rendered
 
   vpc_security_group_ids = compact(concat(module.security_group.*.id, var.security_groups))
 
-  iam_instance_profile        = aws_iam_instance_profile.default[0].name
+  iam_instance_profile        = local.instance_profile
   associate_public_ip_address = var.associate_public_ip_address
 
   key_name = var.key_name

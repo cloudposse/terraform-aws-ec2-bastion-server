@@ -154,6 +154,7 @@ Available targets:
 | environment | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
 | host\_name | The Bastion hostname created in Route53 | `string` | `"bastion"` | no |
 | id\_length\_limit | Limit `id` to this many characters (minimum 6).<br>Set to `0` for unlimited length.<br>Set to `null` for default, which is `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
+| instance\_profile | A pre-defined profile to attach to the instance (default is to build our own) | `string` | `""` | no |
 | instance\_type | Bastion instance type | `string` | `"t2.micro"` | no |
 | key\_name | Key name | `string` | `""` | no |
 | label\_key\_case | The letter case of label keys (`tag` names) (i.e. `name`, `namespace`, `environment`, `stage`, `attributes`) to use in `tags`.<br>Possible values: `lower`, `title`, `upper`.<br>Default value: `title`. | `string` | `null` | no |
@@ -174,7 +175,8 @@ Available targets:
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | subnets | AWS subnet IDs | `list(string)` | n/a | yes |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
-| user\_data | User data content | `list(string)` | `[]` | no |
+| user\_data | User data content. Will be ignored if `user_data_base64` is set | `list(string)` | `[]` | no |
+| user\_data\_base64 | The Base64-encoded user data to provide when launching the instances. If this is set then `user_data` will not be used. | `string` | `""` | no |
 | user\_data\_template | User Data template to use for provisioning EC2 Bastion Host | `string` | `"user_data/amazon-linux.sh"` | no |
 | vpc\_id | VPC ID | `string` | n/a | yes |
 | zone\_id | Route53 DNS Zone ID | `string` | `""` | no |
