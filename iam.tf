@@ -1,11 +1,11 @@
 resource "aws_iam_instance_profile" "default" {
-  count = module.this.enabled && (local.instance_profile_count == 0)
+  count = module.this.enabled && (local.instance_profile_count == 1)
   name  = module.this.id
   role  = aws_iam_role.default[0].name
 }
 
 resource "aws_iam_role" "default" {
-  count = module.this.enabled && (local.instance_profile_count == 0)
+  count = module.this.enabled && (local.instance_profile_count == 1)
   name  = module.this.id
   path  = "/"
   tags  = module.this.tags
@@ -14,7 +14,7 @@ resource "aws_iam_role" "default" {
 }
 
 resource "aws_iam_role_policy" "main" {
-  count  = module.this.enabled && (local.instance_profile_count == 0)
+  count  = module.this.enabled && (local.instance_profile_count == 1)
   name   = module.this.id
   role   = aws_iam_role.default[0].id
   policy = data.aws_iam_policy_document.main.json
