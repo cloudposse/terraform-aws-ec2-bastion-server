@@ -113,6 +113,12 @@ variable "ssm_enabled" {
   default     = true
 }
 
+variable "ec2_instance_connect_enabled" {
+  description = "Enable EC2 Instance Connect to connect to an instance."
+  type        = bool
+  default     = true
+}
+
 variable "security_group_rules" {
   type = list(any)
   default = [

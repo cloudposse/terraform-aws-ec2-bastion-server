@@ -25,4 +25,10 @@ else
     systemctl status amazon-ssm-agent
 fi
 
+if [  "${ec2_instance_connect_enabled}" = "true" ]
+then
+    sudo yum install ec2-instance-connect
+    sudo less /etc/ssh/sshd_config
+fi
+
 ${user_data}

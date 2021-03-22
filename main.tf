@@ -34,9 +34,10 @@ data "template_file" "user_data" {
   template = file("${path.module}/${var.user_data_template}")
 
   vars = {
-    user_data   = join("\n", var.user_data)
-    ssm_enabled = var.ssm_enabled
-    ssh_user    = var.ssh_user
+    user_data                    = join("\n", var.user_data)
+    ssm_enabled                  = var.ssm_enabled
+    ec2_instance_connect_enabled = var.ec2_instance_connect_enabled
+    ssh_user                     = var.ssh_user
   }
 }
 
