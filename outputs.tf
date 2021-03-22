@@ -1,3 +1,7 @@
+# -----------------------------------------------------------------------------
+# OUTPUTS: TF-MOD-AWS-EC2-BASTION-SERVER
+# -----------------------------------------------------------------------------
+
 output "instance_id" {
   value       = join("", aws_instance.default.*.id)
   description = "Instance ID"

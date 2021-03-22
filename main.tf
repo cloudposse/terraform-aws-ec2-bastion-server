@@ -93,5 +93,5 @@ module "dns" {
   ttl      = 60
   records  = var.associate_public_ip_address ? aws_instance.default.*.public_dns : aws_instance.default.*.private_dns
   context  = module.this.context
-  dns_name = var.host_name
+  dns_name = local.host_name
 }
