@@ -39,12 +39,13 @@ module "ec2_bastion" {
 
   enabled = module.this.enabled
 
-  instance_type   = var.instance_type
-  security_groups = compact(concat([module.vpc.vpc_default_security_group_id], var.security_groups))
-  subnets         = module.subnets.public_subnet_ids
-  key_name        = module.aws_key_pair.key_name
-  user_data       = var.user_data
-  vpc_id          = module.vpc.vpc_id
+  instance_type               = var.instance_type
+  security_groups             = compact(concat([module.vpc.vpc_default_security_group_id], var.security_groups))
+  subnets                     = module.subnets.public_subnet_ids
+  key_name                    = module.aws_key_pair.key_name
+  user_data                   = var.user_data
+  vpc_id                      = module.vpc.vpc_id
+  associate_public_ip_address = var.associate_public_ip_address
 
   context = module.this.context
 }
