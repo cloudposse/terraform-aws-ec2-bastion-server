@@ -62,6 +62,18 @@ variable "root_block_device_volume_size" {
   description = "The volume size (in GiB) to provision for the root block device. It cannot be smaller than the AMI it refers to."
 }
 
+variable "disable_api_termination" {
+  type        = bool
+  description = "Enable EC2 Instance Termination Protection"
+  default     = false
+}
+
+variable "monitoring" {
+  type        = bool
+  description = "Launched EC2 instance will have detailed monitoring enabled"
+  default     = true
+}
+
 variable "metadata_http_endpoint_enabled" {
   type        = bool
   default     = true
@@ -84,6 +96,12 @@ variable "associate_public_ip_address" {
   type        = bool
   default     = false
   description = "Whether to associate a public IP to the instance."
+}
+
+variable "assign_eip_address" {
+  type        = bool
+  description = "Assign an Elastic IP address to the instance"
+  default     = true
 }
 
 variable "host_name" {

@@ -1,7 +1,10 @@
 package test
 
 import (
+	"math/rand"
+	"strconv"
 	"testing"
+	"time"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
@@ -11,12 +14,21 @@ import (
 func TestExamplesComplete(t *testing.T) {
 	t.Parallel()
 
+	rand.Seed(time.Now().UnixNano())
+	randID := strconv.Itoa(rand.Intn(100000))
+	attributes := []string{randID}
+
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
 		TerraformDir: "../../examples/complete",
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-2.tfvars"},
+		// We always include a random attribute so that parallel tests
+		// and AWS resources do not interfere with each other
+		Vars: map[string]interface{}{
+			"attributes": attributes,
+		},
 	}
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
@@ -42,8 +54,22 @@ func TestExamplesComplete(t *testing.T) {
 
 	// Run `terraform output` to get the value of an output variable
 	keyName := terraform.Output(t, terraformOptions, "key_name")
-
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "eg-test-ec2-bastion-ssh-key", keyName)
+	assert.Equal(t, "eg-test-ec2-bastion-ssh-key-"+randID, keyName)
+
+	// Run `terraform output` to get the value of an output variable
+	privateDns := terraform.Output(t, terraformOptions, "private_dns")
+	// Verify we're getting back the outputs we expect
+	assert.Contains(t, privateDns, ".us-east-2.compute.internal")
+
+	// Run `terraform output` to get the value of an output variable
+	publicDns := terraform.Output(t, terraformOptions, "public_dns")
+	// Verify we're getting back the outputs we expect
+	assert.Contains(t, publicDns, ".us-east-2.compute.amazonaws.com")
+
+	// Run `terraform output` to get the value of an output variable
+	role := terraform.Output(t, terraformOptions, "role")
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, "eg-test-ec2-bastion-"+randID, role)
 
 }
