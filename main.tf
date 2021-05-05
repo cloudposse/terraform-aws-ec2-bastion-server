@@ -102,8 +102,8 @@ resource "aws_eip" "default" {
 
 resource "aws_eip_association" "default" {
   count         = local.eip_enabled ? 1 : 0
-  instance_id   = aws_instance.default.id
-  allocation_id = aws_eip.default.id
+  instance_id   = aws_instance.default[0].id
+  allocation_id = aws_eip.default[0].id
 }
 
 module "dns" {
