@@ -62,6 +62,12 @@ variable "root_block_device_volume_size" {
   description = "The volume size (in GiB) to provision for the root block device. It cannot be smaller than the AMI it refers to."
 }
 
+variable "root_block_device_volume_type" {
+  type        = string
+  default     = "gp3"
+  description = "The volume type."
+}
+
 variable "disable_api_termination" {
   type        = bool
   description = "Enable EC2 Instance Termination Protection"
