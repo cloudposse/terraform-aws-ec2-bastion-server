@@ -77,6 +77,7 @@ resource "aws_instance" "default" {
   root_block_device {
     encrypted   = var.root_block_device_encrypted
     volume_size = var.root_block_device_volume_size
+    volume_type = var.root_block_device_volume_type
   }
 
   # Optional block; skipped if var.ebs_block_device_volume_size is zero
