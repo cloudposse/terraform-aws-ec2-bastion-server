@@ -95,15 +95,10 @@ resource "aws_instance" "default" {
 }
 
 resource "aws_eip" "default" {
-  count = local.eip_enabled ? 1 : 0
-  vpc   = true
-  tags  = module.this.tags
-}
-
-resource "aws_eip_association" "default" {
-  count         = local.eip_enabled ? 1 : 0
-  instance_id   = aws_instance.default[0].id
-  allocation_id = aws_eip.default[0].id
+  count    = local.eip_enabled ? 1 : 0
+  instance = join("", aws_instance.default.*.id)
+  vpc      = true
+  tags     = module.this.tags
 }
 
 module "dns" {
