@@ -137,6 +137,24 @@ variable "ssm_enabled" {
   default     = true
 }
 
+variable "security_group_enabled" {
+  type        = bool
+  description = "Whether to create default Security Group for bastion host."
+  default     = true
+}
+
+variable "security_group_description" {
+  type        = string
+  default     = "Bastion host security group"
+  description = "The Security Group description."
+}
+
+variable "security_group_use_name_prefix" {
+  type        = bool
+  default     = false
+  description = "Whether to create a default Security Group with unique name beginning with the normalized prefix."
+}
+
 variable "security_group_rules" {
   type = list(any)
   default = [
