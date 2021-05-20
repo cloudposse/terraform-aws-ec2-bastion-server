@@ -64,16 +64,16 @@ output "name" {
 }
 
 output "security_group_id" {
-  value       = module.default_sg.id
+  value       = module.security_group.id
   description = "Bastion host Security Group ID"
 }
 
 output "security_group_arn" {
-  value       = module.default_sg.arn
+  value       = module.security_group.arn
   description = "Bastion host Security Group ARN"
 }
 
 output "security_group_name" {
-  value       = module.default_sg.name
+  value       = module.security_group.name
   description = "Bastion host Security Group name"
 }
