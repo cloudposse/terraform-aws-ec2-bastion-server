@@ -27,7 +27,7 @@ data "aws_ami" "default" {
 
 module "security_group" {
   source  = "cloudposse/security-group/aws"
-  version = "0.2.0"
+  version = "0.3.1"
 
   description = "Bastion host security group"
   rules       = var.security_group_rules
