@@ -133,7 +133,7 @@ variable "ssm_enabled" {
 
 variable "security_groups" {
   type        = list(string)
-  description = "AWS security group IDs associated with instance"
+  description = "A list of Security Group IDs to associate with bastion host."
   default     = []
 }
 
