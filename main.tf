@@ -5,7 +5,7 @@ locals {
   public_dns             = local.eip_enabled ? local.public_dns_rendered : join("", aws_instance.default.*.public_dns)
   public_dns_rendered = local.eip_enabled ? format("ec2-%s.%s.amazonaws.com",
     replace(join("", aws_eip.default.*.public_ip), ".", "-"),
-    data.aws_region.default.name == "us-east-1" ? "compute-1" : format("%s.compute", data.aws_region.default.name)
+    data.aws_region.current.name == "us-east-1" ? "compute-1" : format("%s.compute", data.aws_region.current.name)
   ) : null
 }
 
@@ -112,3 +112,4 @@ module "dns" {
   context  = module.this.context
   dns_name = var.host_name
 }
+  
