@@ -9,7 +9,7 @@ locals {
   ) : null
 }
 
-data "aws_region" "default" {}
+data "aws_region" "current" {}
 
 data "aws_ami" "default" {
   most_recent = "true"
