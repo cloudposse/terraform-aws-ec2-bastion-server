@@ -6,7 +6,7 @@ resource "aws_iam_instance_profile" "default" {
 
 resource "aws_iam_role" "default" {
   count = (module.this.enabled && local.instance_profile_count == 0) ? 0 : 1
-  name  = "${module.this.id}-${data.aws_region}"
+  name  = "${module.this.id}-${data.aws_region.current.name}"
   path  = "/"
   tags  = module.this.tags
 
