@@ -65,7 +65,11 @@ variable "root_block_device_volume_size" {
 variable "root_block_device_volume_type" {
   type        = string
   default     = "gp3"
-  description = "The volume type."
+  description = "The volume type for the EBS root volume"
+  validation {
+    condition = contains(["standard", "gp2", "gp3", "io1", "io2", "sc1", "st1"], var.root_block_device_volume_type)
+    error_message = "The root volume must specify a supported EBS type"
+  }
 }
 
 variable "disable_api_termination" {
@@ -162,8 +166,8 @@ variable "security_group_rules" {
     }
   ]
   description = <<-EOT
-    A list of maps of Security Group rules. 
-    The values of map is fully complated with `aws_security_group_rule` resource. 
+    A list of maps of Security Group rules.
+    The values of map is fully complated with `aws_security_group_rule` resource.
     To get more info see https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule .
   EOT
 }
