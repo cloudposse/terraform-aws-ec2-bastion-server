@@ -2,6 +2,7 @@ resource "aws_iam_instance_profile" "default" {
   count = (module.this.enabled && local.instance_profile_count == 0) ? 0 : 1
   name  = module.this.id
   role  = aws_iam_role.default[0].name
+  tags  = module.this.tags
 }
 
 resource "aws_iam_role" "default" {
