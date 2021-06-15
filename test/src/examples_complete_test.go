@@ -72,4 +72,19 @@ func TestExamplesComplete(t *testing.T) {
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, "eg-test-ec2-bastion-"+randID, role)
 
+	// Run `terraform output` to get the value of an output variable
+	securityGroupName := terraform.Output(t, terraformOptions, "security_group_name")
+	expectedSecurityGroupName := "eg-test-ec2-bastion-" + randID
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, expectedSecurityGroupName, securityGroupName)
+
+	// Run `terraform output` to get the value of an output variable
+	securityGroupID := terraform.Output(t, terraformOptions, "security_group_id")
+	// Verify we're getting back the outputs we expect
+	assert.Contains(t, securityGroupID, "sg-", "SG ID should contains substring 'sg-'")
+
+	// Run `terraform output` to get the value of an output variable
+	securityGroupARN := terraform.Output(t, terraformOptions, "security_group_arn")
+	// Verify we're getting back the outputs we expect
+	assert.Contains(t, securityGroupARN, "arn:aws:ec2", "SG ID should contains substring 'arn:aws:ec2'")
 }
