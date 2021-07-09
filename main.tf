@@ -40,7 +40,7 @@ module "security_group" {
 }
 
 data "aws_route53_zone" "domain" {
-  count   = module.this.enabled && var.zone_id != "" ? 1 : 0
+  count   = module.this.enabled && try(length(var.zone_id), 0) > 0 ? 1 : 0
   zone_id = var.zone_id
 }
 
@@ -106,7 +106,7 @@ resource "aws_eip" "default" {
 module "dns" {
   source   = "cloudposse/route53-cluster-hostname/aws"
   version  = "0.12.0"
-  enabled  = module.this.enabled && var.zone_id != "" ? true : false
+  enabled  = module.this.enabled && try(length(var.zone_id), 0) > 0 ? true : false
   zone_id  = var.zone_id
   ttl      = 60
   records  = var.associate_public_ip_address ? tolist([local.public_dns]) : tolist([join("", aws_instance.default.*.private_dns)])
