@@ -104,11 +104,11 @@ resource "aws_eip" "default" {
 }
 
 module "dns" {
-  source   = "cloudposse/route53-cluster-hostname/aws"
-  version  = "0.12.0"
-  enabled  = module.this.enabled && try(length(var.zone_id), 0) > 0 ? true : false
-  zone_id  = var.zone_id
-  ttl      = 60
+  source  = "cloudposse/route53-cluster-hostname/aws"
+  version = "0.12.0"
+  enabled = module.this.enabled && try(length(var.zone_id), 0) > 0 ? true : false
+  zone_id = var.zone_id
+  ttl     = 60
   # We need to account for the Zone being public when the instance is deployed to a private subnet:
   # if this is the case, the record should be the private IP, not the private DNS.
   records  = var.associate_public_ip_address ? tolist([local.public_dns]) : tolist([join("", aws_instance.default.*.private_ip)])
