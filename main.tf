@@ -13,7 +13,7 @@ locals {
 data "aws_region" "default" {}
 
 data "aws_ami" "default" {
-  count = local.enabled && var.ami == null ? 1 : 0
+  count = module.this.enabled && var.ami == null ? 1 : 0
 
   most_recent = "true"
 
