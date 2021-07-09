@@ -1,9 +1,9 @@
 locals {
-  instance_profile_count = module.this.enabled ? (length(var.instance_profile) > 0 ? 0 : 1) : 0
-  instance_profile       = local.instance_profile_count == 0 ? var.instance_profile : join("", aws_iam_instance_profile.default.*.name)
-  eip_enabled            = var.associate_public_ip_address && var.assign_eip_address && module.this.enabled
-  security_group_enabled = module.this.enabled && var.security_group_enabled
-  public_dns             = local.eip_enabled ? local.public_dns_rendered : join("", aws_instance.default.*.public_dns)
+  create_instance_profile = module.this.enabled && try(length(var.instance_profile), 0) == 0
+  instance_profile        = local.create_instance_profile ? var.instance_profile : join("", aws_iam_instance_profile.default.*.name)
+  eip_enabled             = var.associate_public_ip_address && var.assign_eip_address && module.this.enabled
+  security_group_enabled  = module.this.enabled && var.security_group_enabled
+  public_dns              = local.eip_enabled ? local.public_dns_rendered : join("", aws_instance.default.*.public_dns)
   public_dns_rendered = local.eip_enabled ? format("ec2-%s.%s.amazonaws.com",
     replace(join("", aws_eip.default.*.public_ip), ".", "-"),
     data.aws_region.default.name == "us-east-1" ? "compute-1" : format("%s.compute", data.aws_region.default.name)

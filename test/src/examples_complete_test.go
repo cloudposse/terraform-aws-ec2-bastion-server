@@ -55,7 +55,7 @@ func TestExamplesComplete(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	keyName := terraform.Output(t, terraformOptions, "key_name")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "eg-test-ec2-bastion-ssh-key-"+randID, keyName)
+	assert.Equal(t, "eg-test-ec2-bastion-" + randID + "-ssh-key", keyName)
 
 	// Run `terraform output` to get the value of an output variable
 	privateDns := terraform.Output(t, terraformOptions, "private_dns")
