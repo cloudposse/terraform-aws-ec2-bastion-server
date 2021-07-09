@@ -61,7 +61,7 @@ resource "aws_instance" "default" {
   #bridgecrew:skip=BC_AWS_PUBLIC_12: Skipping `EC2 Should Not Have Public IPs` check. NAT instance requires public IP.
   #bridgecrew:skip=BC_AWS_GENERAL_31: Skipping `Ensure Instance Metadata Service Version 1 is not enabled` check until BridgeCrew support condition evaluation. See https://github.com/bridgecrewio/checkov/issues/793
   count                       = module.this.enabled ? 1 : 0
-  ami                         = coalesce(var.ami, join("", data.aws_ami.default.*.id)}
+  ami                         = coalesce(var.ami, join("", data.aws_ami.default.*.id))
   instance_type               = var.instance_type
   user_data                   = length(var.user_data_base64) > 0 ? var.user_data_base64 : data.template_file.user_data[0].rendered
   vpc_security_group_ids      = compact(concat(module.security_group.*.id, var.security_groups))
