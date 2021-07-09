@@ -109,7 +109,10 @@ module "dns" {
   enabled  = module.this.enabled && try(length(var.zone_id), 0) > 0 ? true : false
   zone_id  = var.zone_id
   ttl      = 60
-  records  = var.associate_public_ip_address ? tolist([local.public_dns]) : tolist([join("", aws_instance.default.*.private_dns)])
+  # We need to account for the Zone being public when the instance is deployed to a private subnet:
+  # if this is the case, the record should be the private IP, not the private DNS.
+  records  = var.associate_public_ip_address ? tolist([local.public_dns]) : tolist([join("", aws_instance.default.*.private_ip)])
+  type     = var.associate_public_ip_address ? "CNAME" : "A"
   context  = module.this.context
   dns_name = var.host_name
 }
