@@ -15,7 +15,7 @@ resource "aws_iam_role" "default" {
 }
 
 resource "aws_iam_role_policy" "main" {
-  count = module.this.enabled && local.create_instance_profile ? 1 : 0
+  count  = module.this.enabled && local.create_instance_profile ? 1 : 0
   name   = module.this.id
   role   = aws_iam_role.default[0].id
   policy = data.aws_iam_policy_document.main.json
