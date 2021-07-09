@@ -1,6 +1,6 @@
 locals {
   create_instance_profile = module.this.enabled && try(length(var.instance_profile), 0) == 0
-  instance_profile        = local.create_instance_profile ? var.instance_profile : join("", aws_iam_instance_profile.default.*.name)
+  instance_profile        = local.create_instance_profile ? join("", aws_iam_instance_profile.default.*.name) : var.instance_profile
   eip_enabled             = var.associate_public_ip_address && var.assign_eip_address && module.this.enabled
   security_group_enabled  = module.this.enabled && var.security_group_enabled
   public_dns              = local.eip_enabled ? local.public_dns_rendered : join("", aws_instance.default.*.public_dns)
