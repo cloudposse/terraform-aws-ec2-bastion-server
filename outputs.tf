@@ -62,3 +62,18 @@ output "name" {
   description = "Instance name"
   value       = module.this.id
 }
+
+output "security_group_id" {
+  value       = module.security_group.id
+  description = "Bastion host Security Group ID"
+}
+
+output "security_group_arn" {
+  value       = module.security_group.arn
+  description = "Bastion host Security Group ARN"
+}
+
+output "security_group_name" {
+  value       = module.security_group.name
+  description = "Bastion host Security Group name"
+}

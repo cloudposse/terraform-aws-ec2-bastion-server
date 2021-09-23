@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/gruntwork-io/gruntwork-cli v0.7.0 // indirect
-	github.com/gruntwork-io/terratest v0.32.24
+	github.com/gruntwork-io/terratest v0.34.7
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl/v2 v2.9.1 // indirect
