@@ -44,24 +44,17 @@ data "aws_route53_zone" "domain" {
   zone_id = var.zone_id
 }
 
-data "template_file" "user_data" {
-  count    = module.this.enabled ? 1 : 0
-  template = file("${path.module}/${var.user_data_template}")
-
-  vars = {
-    user_data   = join("\n", var.user_data)
-    ssm_enabled = var.ssm_enabled
-    ssh_user    = var.ssh_user
-  }
-}
-
 resource "aws_instance" "default" {
   #bridgecrew:skip=BC_AWS_PUBLIC_12: Skipping `EC2 Should Not Have Public IPs` check. NAT instance requires public IP.
   #bridgecrew:skip=BC_AWS_GENERAL_31: Skipping `Ensure Instance Metadata Service Version 1 is not enabled` check until BridgeCrew support condition evaluation. See https://github.com/bridgecrewio/checkov/issues/793
   count                       = module.this.enabled ? 1 : 0
   ami                         = data.aws_ami.default.id
   instance_type               = var.instance_type
-  user_data                   = length(var.user_data_base64) > 0 ? var.user_data_base64 : data.template_file.user_data[0].rendered
+  user_data                   = length(var.user_data_base64) > 0 ? var.user_data_base64 : templatefile("${path.module}/${var.user_data_template}", {
+    user_data   = join("\n", var.user_data)
+    ssm_enabled = var.ssm_enabled
+    ssh_user    = var.ssh_user
+  })
   vpc_security_group_ids      = compact(concat(module.security_group.*.id, var.security_groups))
   iam_instance_profile        = local.instance_profile
   associate_public_ip_address = var.associate_public_ip_address
