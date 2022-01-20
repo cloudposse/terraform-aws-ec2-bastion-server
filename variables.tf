@@ -44,6 +44,18 @@ variable "ssh_user" {
   default     = "ec2-user"
 }
 
+variable "tcp_forwarding" {
+  type        = string
+  description = "Set to `false` to disable TCP forwarding SSH server capability"
+  default     = "true"
+}
+
+variable "x11_forwarding" {
+  type        = string
+  description = "Set to `false` to disable X11 forwarding SSH server capability"
+  default     = "true"
+}
+
 variable "root_block_device_encrypted" {
   type        = bool
   default     = true
@@ -106,7 +118,7 @@ variable "host_name" {
 
 variable "user_data_template" {
   type        = string
-  default     = "user_data/amazon-linux.sh"
+  default     = "user_data/amazon-linux-tem.sh"
   description = "User Data template to use for provisioning EC2 Bastion Host"
 }
 
@@ -210,4 +222,19 @@ variable "instance_profile" {
   type        = string
   description = "A pre-defined profile to attach to the instance (default is to build our own)"
   default     = ""
+}
+
+variable "enable_cloudwatch_logs" {
+  description = <<-EOT
+    Set to false to prevent the module from creating and configuring
+    CloudWatch log group for bastion hosts
+  EOT
+  type        = bool
+  default     = true
+}
+
+variable "log_retention_in_days" {
+  description = "Number of days you want to retain log events in the log group"
+  type        = number
+  default     = 30
 }

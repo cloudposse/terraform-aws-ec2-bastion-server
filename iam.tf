@@ -100,4 +100,17 @@ data "aws_iam_policy_document" "main" {
 
     resources = ["*"]
   }
+
+  statement {
+    effect = "Allow"
+    resources = [
+      module.bastion_logs.log_group_arn
+    ]
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:DescribeLogGroups",
+      "logs:DescribeLogStreams",
+    ]
+  }
 }
