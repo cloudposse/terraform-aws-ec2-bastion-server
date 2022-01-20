@@ -15,7 +15,8 @@ function imdsv2_token() {
 
 function imds_request() {
     REQUEST_PATH=$1
-    if [[ -z $TOKEN ]]; then
+    if [ -z $TOKEN ]
+    then
         TOKEN=$(imdsv2_token)
     fi
     curl -sH "X-aws-ec2-metadata-token: $${TOKEN}" "$${IMDS_BASE_URL}/$${REQUEST_PATH}"
@@ -33,16 +34,20 @@ function setup_environment_variables() {
 
 function verify_dependencies(){
     echo "$${FUNCNAME[0]} Started"
-    if [[ "a$(which aws)" == "a" ]]; then
-      pip install awscli==1.19.79
+    if [ "a$(which aws)" = "a" ]
+    then
+      pip install awscli
     fi
     echo "$${FUNCNAME[0]} Ended"
 }
 
 function osrelease () {
     OS=`cat /etc/os-release | grep '^NAME=' |  tr -d \" | sed 's/\n//g' | sed 's/NAME=//g'`
-    if [[ "$${OS}" == "Amazon Linux AMI" ]] || [[ "$${OS}" == "Amazon Linux" ]]; then
+    if [ "$${OS}" = "Amazon Linux AMI" ] || [ "$${OS}" = "Amazon Linux" ]
+    then
         echo "AMZN"
+    else
+        echo "Operating System Not Found"
     fi
 }
 
@@ -53,11 +58,13 @@ function setup_ssh() {
 Host *
     StrictHostKeyChecking no
 EOF
-    if [[ ${tcp_forwarding} == "false" ]];then
+    if [ "${tcp_forwarding}" = "false" ]
+    then
         awk '!/AllowTcpForwarding/' /etc/ssh/sshd_config > temp && mv temp /etc/ssh/sshd_config
         echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config
     fi
-    if [[ ${x11_forwarding} == "false" ]];then
+    if [ "${x11_forwarding}" = "false" ]
+    then
         awk '!/X11Forwarding/' /etc/ssh/sshd_config > temp && mv temp /etc/ssh/sshd_config
         echo "X11Forwarding no" >> /etc/ssh/sshd_config
     fi
@@ -71,7 +78,7 @@ EOF
 function setup_ssm() {
     echo "$${FUNCNAME[0]} Started"
 
-    if [  "${ssm_enabled}" = "true" ]
+    if [ "${ssm_enabled}" = "true" ]
     then
         systemctl enable amazon-ssm-agent
         systemctl start amazon-ssm-agent
@@ -88,7 +95,8 @@ function setup_ssm() {
 function setup_logs () {
     echo "$${FUNCNAME[0]} Started"
 
-    if [[ "$${release}" == "AMZN" ]]; then
+    if [ "$${release}" = "AMZN" ]
+    then
         curl "https://amazoncloudwatch-agent-$${REGION}.s3.$${REGION}.amazonaws.com/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm" -O
         rpm -U ./amazon-cloudwatch-agent.rpm
         rm ./amazon-cloudwatch-agent.rpm
@@ -103,8 +111,8 @@ function setup_logs () {
                 "collect_list": [
                     {
                         "file_path": "/var/log/audit/audit.log",
-                        "log_group_name": "${CWG}",
-                        "log_stream_name": "{instance_id}",
+                        "log_group_name": "$${CWG}",
+                        "log_stream_name": "$${INSTANCE_ID}",
                         "timestamp_format": "%Y-%m-%d %H:%M:%S",
                         "timezone": "UTC"
                     }
@@ -126,7 +134,8 @@ function setup_os () {
 
     echo "Defaults env_keep += \"SSH_CLIENT\"" >> /etc/sudoers
 
-    if [[ "$${release}" == "AMZN" ]]; then
+    if [ "$${release}" = "AMZN" ]
+    then
         user_group="ec2-user"
         echo "0 0 * * * yum -y update --security" > ~/mycron
     fi
@@ -155,7 +164,8 @@ function setup_banner() {
 #                All actions will be monitored and recorded.                  #
 ###############################################################################
 EOF
-    if [[ -e $${BANNER_FILE} ]] ;then
+    if [ -e $${BANNER_FILE} ]
+    then
         echo "[INFO] Installing banner ... "
         echo -e "\n Banner $${BANNER_FILE}" >> /etc/ssh/sshd_config
     else
@@ -177,7 +187,8 @@ function prevent_process_snooping() {
 ##################################### End Function Definitions
 
 release=$(osrelease)
-if [[ "$${release}" == "Operating System Not Found" ]]; then
+if [ "$${release}" = "Operating System Not Found" ]
+then
     echo "[ERROR] Unsupported Linux Bastion OS"
     exit 1
 fi
