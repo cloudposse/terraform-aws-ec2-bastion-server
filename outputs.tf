@@ -19,18 +19,18 @@ output "security_group_ids" {
 }
 
 output "role" {
-  value       = join("", aws_iam_role.default.*.name)
   description = "Name of AWS IAM Role associated with the instance"
+  value       = module.bastion_instance_role.name
 }
 
 output "public_ip" {
-  value       = concat(aws_eip.default.*.public_ip, aws_instance.default.*.public_ip, [""])[0]
   description = "Public IP of the instance (or EIP)"
+  value       = concat(aws_eip.default.*.public_ip, aws_instance.default.*.public_ip, [""])[0]
 }
 
 output "private_ip" {
-  value       = join("", aws_instance.default.*.private_ip)
   description = "Private IP of the instance"
+  value       = join("", aws_instance.default.*.private_ip)
 }
 
 output "private_dns" {
@@ -44,8 +44,8 @@ output "public_dns" {
 }
 
 output "hostname" {
-  value       = module.dns.hostname
   description = "DNS hostname"
+  value       = module.dns.hostname
 }
 
 output "id" {

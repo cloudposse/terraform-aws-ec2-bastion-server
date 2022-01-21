@@ -1,6 +1,6 @@
 locals {
   create_instance_profile = module.this.enabled && try(length(var.instance_profile), 0) == 0
-  instance_profile        = local.create_instance_profile ? join("", aws_iam_instance_profile.default.*.name) : var.instance_profile
+  instance_profile        = local.create_instance_profile ? module.bastion_instance_role.instance_profile : var.instance_profile
   eip_enabled             = var.associate_public_ip_address && var.assign_eip_address && module.this.enabled
   security_group_enabled  = module.this.enabled && var.security_group_enabled
   public_dns              = local.eip_enabled ? local.public_dns_rendered : join("", aws_instance.default.*.public_dns)
@@ -49,11 +49,11 @@ data "template_file" "user_data" {
   template = file("${path.module}/${var.user_data_template}")
 
   vars = {
-    user_data      = join("\n", var.user_data)
-    ssm_enabled    = var.ssm_enabled
-    ssh_user       = var.ssh_user
-    tcp_forwarding = var.tcp_forwarding
-    x11_forwarding = var.x11_forwarding
+    ssm_enabled      = var.ssm_enabled
+    ssh_user         = var.ssh_user
+    tcp_forwarding   = var.tcp_forwarding
+    x11_forwarding   = var.x11_forwarding
+    cloudwatch_group = module.bastion_logs.log_group_name
   }
 }
 

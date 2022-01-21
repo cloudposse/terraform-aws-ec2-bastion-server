@@ -2,11 +2,12 @@
 #
 # Bastion Bootstrapping
 
+exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
+date '+%Y-%m-%d %H:%M:%S'
+
 # Configuration
 PROGRAM='Linux Bastion'
 IMDS_BASE_URL='http://169.254.169.254/latest'
-
-exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
 
 ##################################### Functions Definitions
 function imdsv2_token() {
@@ -111,7 +112,7 @@ function setup_logs () {
                 "collect_list": [
                     {
                         "file_path": "/var/log/audit/audit.log",
-                        "log_group_name": "$${CWG}",
+                        "log_group_name": "${cloudwatch_group}",
                         "log_stream_name": "$${INSTANCE_ID}",
                         "timestamp_format": "%Y-%m-%d %H:%M:%S",
                         "timezone": "UTC"

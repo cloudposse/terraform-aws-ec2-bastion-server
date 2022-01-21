@@ -1,116 +1,50 @@
-resource "aws_iam_instance_profile" "default" {
-  count = module.this.enabled && local.create_instance_profile ? 1 : 0
-  name  = module.this.id
-  role  = aws_iam_role.default[0].name
-  tags  = module.this.tags
+# AWS Managed Policies
+data "aws_iam_policy" "aws_ssm_managed_instance_core" {
+  name = "AmazonSSMManagedInstanceCore"
 }
 
-resource "aws_iam_role" "default" {
-  count = module.this.enabled && local.create_instance_profile ? 1 : 0
-  name  = module.this.id
-  path  = "/"
-  tags  = module.this.tags
-
-  assume_role_policy = data.aws_iam_policy_document.default.json
+data "aws_iam_policy" "cloud_watch_agent_server_policy" {
+  name = "CloudWatchAgentServerPolicy"
 }
 
-resource "aws_iam_role_policy" "main" {
-  count  = module.this.enabled && local.create_instance_profile ? 1 : 0
-  name   = module.this.id
-  role   = aws_iam_role.default[0].id
-  policy = data.aws_iam_policy_document.main.json
-}
+# Policy with additional custom permissions for bastion instances.
+module "bastion_policy" {
+  source  = "cloudposse/iam-policy/aws"
+  version = "0.3.0"
 
-data "aws_iam_policy_document" "default" {
-  statement {
-    sid = ""
+  enabled = module.this.enabled && local.create_instance_profile
+  context = module.this.context
 
-    actions = [
-      "sts:AssumeRole",
-    ]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
+  description = "Policy for the EC2 Bastion instances"
+  iam_policy_statements = {
+    S3Access = {
+      effect     = "Allow"
+      resources  = ["*"]
+      conditions = []
+      actions = [
+        "s3:GetEncryptionConfiguration",
+      ]
     }
-
-    effect = "Allow"
   }
 }
 
-data "aws_iam_policy_document" "main" {
-  statement {
-    effect = "Allow"
+module "bastion_instance_role" {
+  source  = "cloudposse/iam-role/aws"
+  version = "0.15.0"
 
-    actions = [
-      "ssm:DescribeAssociation",
-      "ssm:GetDeployablePatchSnapshotForInstance",
-      "ssm:GetDocument",
-      "ssm:DescribeDocument",
-      "ssm:GetManifest",
-      "ssm:GetParameter",
-      "ssm:GetParameters",
-      "ssm:ListAssociations",
-      "ssm:ListInstanceAssociations",
-      "ssm:PutInventory",
-      "ssm:PutComplianceItems",
-      "ssm:PutConfigurePackageResult",
-      "ssm:UpdateAssociationStatus",
-      "ssm:UpdateInstanceAssociationStatus",
-      "ssm:UpdateInstanceInformation"
-    ]
+  enabled = module.this.enabled && local.create_instance_profile
+  context = module.this.context
 
-    resources = ["*"]
+  instance_profile_enabled = true
+  role_description         = "IAM role for the ${module.this.id} EC2 Bastion"
+  principals = {
+    Service = ["ec2.amazonaws.com"]
   }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "ssmmessages:CreateControlChannel",
-      "ssmmessages:CreateDataChannel",
-      "ssmmessages:OpenControlChannel",
-      "ssmmessages:OpenDataChannel"
-    ]
-
-    resources = ["*"]
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "ec2messages:AcknowledgeMessage",
-      "ec2messages:DeleteMessage",
-      "ec2messages:FailMessage",
-      "ec2messages:GetEndpoint",
-      "ec2messages:GetMessages",
-      "ec2messages:SendReply"
-    ]
-
-    resources = ["*"]
-  }
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "s3:GetEncryptionConfiguration"
-    ]
-
-    resources = ["*"]
-  }
-
-  statement {
-    effect = "Allow"
-    resources = [
-      module.bastion_logs.log_group_arn
-    ]
-    actions = [
-      "logs:CreateLogStream",
-      "logs:PutLogEvents",
-      "logs:DescribeLogGroups",
-      "logs:DescribeLogStreams",
-    ]
-  }
+  managed_policy_arns = [
+    data.aws_iam_policy.aws_ssm_managed_instance_core.arn,
+    data.aws_iam_policy.cloud_watch_agent_server_policy.arn,
+  ]
+  policy_documents = [
+    module.bastion_policy.json,
+  ]
 }
