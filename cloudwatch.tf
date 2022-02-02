@@ -29,11 +29,11 @@ variable "retention_in_days" {
 }
 
 output "log_group_arn" {
-  value       = module.cloudwatch_logs.outputs.log_group_arn
+  value       = module.cloudwatch_logs.log_group_arn
   description = "ARN of the log group"
 }
 
 output "log_group_name" {
   description = "Name of log group"
-  value       = module.cloudwatch_logs.outputs.log_group_name
+  value       = module.cloudwatch_logs.log_group_name
 }
