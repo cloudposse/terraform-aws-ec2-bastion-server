@@ -4,7 +4,7 @@ module "cloudwatch_logs" {
   version           = "0.6.4"
   context           = module.this.context
   attributes        = ["log-group"]
-  kms_key_arn       = var.cloudwatch_use_kms_key ? var.kms_key_arn : null
+  kms_key_arn       = var.kms_key_arn != "" ? var.kms_key_arn : null
   retention_in_days = var.retention_in_days
 }
 
@@ -29,11 +29,11 @@ variable "retention_in_days" {
 }
 
 output "log_group_arn" {
-  value       = module.cloudwatch_logs.ouputs.log_group_arn
+  value       = module.cloudwatch_logs.outputs.log_group_arn
   description = "ARN of the log group"
 }
 
 output "log_group_name" {
   description = "Name of log group"
-  value       = module.cloudwatch_logs.ouputs.log_group_name
+  value       = module.cloudwatch_logs.outputs.log_group_name
 }
