@@ -38,7 +38,7 @@ variable "generate_ssh_key" {
 
 variable "security_groups" {
   type        = list(string)
-  description = "AWS security group IDs"
+  description = "List of Security Group IDs allowed to connect to the bastion host"
 }
 
 variable "root_block_device_encrypted" {

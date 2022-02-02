@@ -5,7 +5,7 @@ output "instance_id" {
 
 output "security_group_ids" {
   value       = module.ec2_bastion.security_group_ids
-  description = "Security group ID"
+  description = "Security group IDs"
 }
 
 output "role" {
@@ -21,6 +21,46 @@ output "public_ip" {
 output "private_ip" {
   value       = module.ec2_bastion.private_ip
   description = "Private IP of the instance"
+}
+
+output "private_dns" {
+  description = "Private DNS of instance"
+  value       = module.ec2_bastion.private_dns
+}
+
+output "public_dns" {
+  description = "Public DNS of instance (or DNS of EIP)"
+  value       = module.ec2_bastion.public_dns
+}
+
+output "id" {
+  description = "Disambiguated ID of the instance"
+  value       = module.ec2_bastion.id
+}
+
+output "arn" {
+  description = "ARN of the instance"
+  value       = module.ec2_bastion.arn
+}
+
+output "name" {
+  description = "Instance name"
+  value       = module.ec2_bastion.name
+}
+
+output "security_group_id" {
+  value       = module.ec2_bastion.security_group_id
+  description = "Bastion host Security Group ID"
+}
+
+output "security_group_arn" {
+  value       = module.ec2_bastion.security_group_arn
+  description = "Bastion host Security Group ARN"
+}
+
+output "security_group_name" {
+  value       = module.ec2_bastion.security_group_name
+  description = "Bastion host Security Group name"
 }
 
 output "public_subnet_cidrs" {
