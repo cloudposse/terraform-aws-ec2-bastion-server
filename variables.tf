@@ -211,3 +211,9 @@ variable "instance_profile" {
   description = "A pre-defined profile to attach to the instance (default is to build our own)"
   default     = ""
 }
+
+variable "existing_policy_arns" {
+  description = "(Optional) - A list of existing policy ARNs to associate with the role"
+  type        = list(string)
+  default     = []
+}
