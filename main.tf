@@ -30,7 +30,7 @@ data "aws_ami" "default" {
 
 module "security_group" {
   source  = "cloudposse/security-group/aws"
-  version = "0.3.1"
+  version = "0.3.3"
 
   use_name_prefix = var.security_group_use_name_prefix
   rules           = var.security_group_rules
@@ -107,7 +107,7 @@ resource "aws_eip" "default" {
 
 module "dns" {
   source   = "cloudposse/route53-cluster-hostname/aws"
-  version  = "0.12.0"
+  version  = "0.12.2"
   enabled  = module.this.enabled && try(length(var.zone_id), 0) > 0 ? true : false
   zone_id  = var.zone_id
   ttl      = 60
