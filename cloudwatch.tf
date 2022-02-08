@@ -10,7 +10,7 @@ module "cloudwatch_logs" {
 
 variable "ssm_use_cloudwatch_logs" {
   type        = bool
-  default     = true
+  default     = false
   description = "(Optional) Flag to enable session logs to ship to a CloudWatch log group"
 }
 
