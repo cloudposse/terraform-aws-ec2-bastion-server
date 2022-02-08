@@ -15,7 +15,7 @@ resource "aws_iam_role" "default" {
 }
 
 resource "aws_iam_role_policy_attachment" "existing_policies" {
-  count      = module.this.enabled && var.length(existing_policy_arns) > 0 [] ? length(var.existing_policy_arns) : 0
+  count      = module.this.enabled && var.length(existing_policy_arns) > 0 ? length(var.existing_policy_arns) : 0
   role       = aws_iam_role.default[0].name
   policy_arn = var.existing_policy_arns[count.index]
 }
