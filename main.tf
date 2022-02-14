@@ -49,9 +49,9 @@ data "template_file" "user_data" {
   template = file("${path.module}/${var.user_data_template}")
 
   vars = {
-    user_data                    = join("\n", var.user_data)
-    ssm_enabled                  = var.ssm_enabled
-    ssh_user                     = var.ssh_user
+    user_data   = join("\n", var.user_data)
+    ssm_enabled = var.ssm_enabled
+    ssh_user    = var.ssh_user
   }
 }
 
@@ -90,6 +90,7 @@ resource "aws_instance" "default" {
       volume_size           = var.ebs_block_device_volume_size
       delete_on_termination = var.ebs_delete_on_termination
       device_name           = var.ebs_device_name
+      tags                  = module.this.tags
     }
   }
 
