@@ -12,6 +12,9 @@ resource "aws_iam_role" "default" {
   tags  = module.this.tags
 
   assume_role_policy = data.aws_iam_policy_document.default.json
+
+  permissions_boundary = var.permissions_boundary
+
 }
 
 resource "aws_iam_role_policy" "main" {
