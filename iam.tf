@@ -115,7 +115,7 @@ data "aws_iam_policy_document" "main" {
       "kms:Decrypt"
     ]
 
-    resources = ["arn:aws:kms:eu-west-1:895470510842:key/989927b9-1e51-44f4-a6c1-bb0c2fe5051a"]
+    resources = [var.kms_key_arn]
   }
 
   statement {
