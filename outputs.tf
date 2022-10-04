@@ -23,6 +23,11 @@ output "role" {
   description = "Name of AWS IAM Role associated with the instance"
 }
 
+output "role_arn" {
+  value       = join("", aws_iam_role.default.*.arn)
+  description = "ARN of AWS IAM Role associated with the instance"
+}
+
 output "public_ip" {
   value       = concat(aws_eip.default.*.public_ip, aws_instance.default.*.public_ip, [""])[0]
   description = "Public IP of the instance (or EIP)"
