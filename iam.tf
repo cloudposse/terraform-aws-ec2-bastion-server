@@ -14,11 +14,16 @@ resource "aws_iam_role" "default" {
   assume_role_policy = data.aws_iam_policy_document.default.json
 }
 
-resource "aws_iam_role_policy" "main" {
+resource "aws_iam_policy" "main" {
   count  = module.this.enabled && local.create_instance_profile ? 1 : 0
   name   = module.this.id
-  role   = aws_iam_role.default[0].id
   policy = data.aws_iam_policy_document.main.json
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  count      = module.this.enabled && local.create_instance_profile ? 1 : 0
+  policy_arn = aws_iam_policy.main[0].arn
+  role       = aws_iam_role.default[0].id
 }
 
 data "aws_iam_policy_document" "default" {
