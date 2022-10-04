@@ -204,6 +204,7 @@ Available targets:
 | <a name="output_public_dns"></a> [public\_dns](#output\_public\_dns) | Public DNS of instance (or DNS of EIP) |
 | <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | Public IP of the instance (or EIP) |
 | <a name="output_role"></a> [role](#output\_role) | Name of AWS IAM Role associated with the instance |
+| <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | ARN of AWS IAM Role associated with the instance |
 | <a name="output_security_group_arn"></a> [security\_group\_arn](#output\_security\_group\_arn) | Bastion host Security Group ARN |
 | <a name="output_security_group_id"></a> [security\_group\_id](#output\_security\_group\_id) | Bastion host Security Group ID |
 | <a name="output_security_group_ids"></a> [security\_group\_ids](#output\_security\_group\_ids) | IDs on the AWS Security Groups associated with the instance |
@@ -377,7 +378,7 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
-
+<!-- markdownlint-disable -->
   [logo]: https://cloudposse.com/logo-300x69.svg
   [docs]: https://cpco.io/docs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-ec2-bastion-server&utm_content=docs
   [website]: https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-ec2-bastion-server&utm_content=website
@@ -408,3 +409,4 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
   [share_googleplus]: https://plus.google.com/share?url=https://github.com/cloudposse/terraform-aws-ec2-bastion-server
   [share_email]: mailto:?subject=terraform-aws-ec2-bastion-server&body=https://github.com/cloudposse/terraform-aws-ec2-bastion-server
   [beacon]: https://ga-beacon.cloudposse.com/UA-76589703-4/cloudposse/terraform-aws-ec2-bastion-server?pixel&cs=github&cm=readme&an=terraform-aws-ec2-bastion-server
+<!-- markdownlint-restore -->
