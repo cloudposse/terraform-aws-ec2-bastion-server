@@ -35,7 +35,7 @@ data "aws_ami" "default" {
 
 module "security_group" {
   source  = "cloudposse/security-group/aws"
-  version = "0.3.3"
+  version = "2.1.0"
 
   use_name_prefix = var.security_group_use_name_prefix
   rules           = var.security_group_rules
