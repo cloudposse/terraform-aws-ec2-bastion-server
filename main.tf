@@ -108,5 +108,5 @@ module "dns" {
   ttl      = 60
   records  = var.associate_public_ip_address ? tolist([local.public_dns]) : tolist([join("", aws_instance.default.*.private_dns)])
   context  = module.this.context
-  dns_name = local.host_name
+  dns_name = var.host_name
 }
