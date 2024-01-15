@@ -8,11 +8,18 @@ locals {
     replace(join("", aws_eip.default.*.public_ip), ".", "-"),
     data.aws_region.default.name == "us-east-1" ? "compute-1" : format("%s.compute", data.aws_region.default.name)
   ) : null
+  user_data_templated = templatefile("${path.module}/${var.user_data_template}", {
+    user_data   = join("\n", var.user_data)
+    ssm_enabled = var.ssm_enabled
+    ssh_user    = var.ssh_user
+  })
 }
 
 data "aws_region" "default" {}
 
 data "aws_ami" "default" {
+  count = module.this.enabled && var.ami == null ? 1 : 0
+
   most_recent = "true"
 
   dynamic "filter" {
@@ -44,26 +51,13 @@ data "aws_route53_zone" "domain" {
   zone_id = var.zone_id
 }
 
-data "template_file" "user_data" {
-  count    = module.this.enabled ? 1 : 0
-  template = file("${path.module}/${var.user_data_template}")
-
-  vars = {
-    ssm_enabled      = var.ssm_enabled
-    ssh_user         = var.ssh_user
-    tcp_forwarding   = var.tcp_forwarding
-    x11_forwarding   = var.x11_forwarding
-    cloudwatch_group = module.bastion_logs.log_group_name
-  }
-}
-
 resource "aws_instance" "default" {
   #bridgecrew:skip=BC_AWS_PUBLIC_12: Skipping `EC2 Should Not Have Public IPs` check. NAT instance requires public IP.
   #bridgecrew:skip=BC_AWS_GENERAL_31: Skipping `Ensure Instance Metadata Service Version 1 is not enabled` check until BridgeCrew support condition evaluation. See https://github.com/bridgecrewio/checkov/issues/793
   count                       = module.this.enabled ? 1 : 0
-  ami                         = data.aws_ami.default.id
+  ami                         = coalesce(var.ami, join("", data.aws_ami.default.*.id))
   instance_type               = var.instance_type
-  user_data                   = length(var.user_data_base64) > 0 ? var.user_data_base64 : data.template_file.user_data[0].rendered
+  user_data                   = length(var.user_data_base64) > 0 ? var.user_data_base64 : local.user_data_templated
   vpc_security_group_ids      = compact(concat(module.security_group.*.id, var.security_groups))
   iam_instance_profile        = local.instance_profile
   associate_public_ip_address = var.associate_public_ip_address

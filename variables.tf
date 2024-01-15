@@ -137,6 +137,12 @@ variable "ami_owners" {
   default     = ["amazon"]
 }
 
+variable "ami" {
+  type        = string
+  description = "AMI to use for the instance. Setting this will ignore `ami_filter` and `ami_owners`."
+  default     = null
+}
+
 variable "ssm_enabled" {
   description = "Enable SSM Agent on Host."
   type        = bool

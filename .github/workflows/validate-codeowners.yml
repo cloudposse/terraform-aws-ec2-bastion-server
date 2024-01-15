@@ -1,27 +1,17 @@
-name: Validate Codeowners
+---
+name: Validate CODEOWNERS
 on:
-  workflow_dispatch:
-
   pull_request:
+    paths:
+      - .github/CODEOWNERS
+  schedule:
+    # Runs at 08:00 UTC every 1st day of a month.
+    - cron: "0 8 1 * *"
 
 jobs:
   validate-codeowners:
     runs-on: ubuntu-latest
     steps:
-    - name: "Checkout source code at current commit"
-      uses: actions/checkout@v2
-    - uses: mszostok/codeowners-validator@v0.5.0
-      if: github.event.pull_request.head.repo.full_name == github.repository
-      name: "Full check of CODEOWNERS"
-      with:
-        # For now, remove "files" check to allow CODEOWNERS to specify non-existent
-        # files so we can use the same CODEOWNERS file for Terraform and non-Terraform repos
-        #   checks: "files,syntax,owners,duppatterns"
-        checks: "syntax,owners,duppatterns"
-        # GitHub access token is required only if the `owners` check is enabled
-        github_access_token: "${{ secrets.PUBLIC_REPO_ACCESS_TOKEN }}"
-    - uses: mszostok/codeowners-validator@v0.5.0
-      if: github.event.pull_request.head.repo.full_name != github.repository
-      name: "Syntax check of CODEOWNERS"
-      with:
-        checks: "syntax,duppatterns"
+      - uses: tem-energy/cicd/actions/codeowners-validator@main
+        with:
+          github_app_private_key: "${{ secrets.CODEOWNERS_VALIDATOR_PRIVATE_KEY }}"
