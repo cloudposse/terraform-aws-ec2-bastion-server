@@ -101,7 +101,7 @@ resource "aws_eip" "default" {
 
 module "dns" {
   source   = "cloudposse/route53-cluster-hostname/aws"
-  version  = "0.12.2"
+  version  = "0.13.0"
   enabled  = module.this.enabled && try(length(var.zone_id), 0) > 0 ? true : false
   zone_id  = var.zone_id
   ttl      = 60
