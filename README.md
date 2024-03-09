@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable -->
 # terraform-aws-ec2-bastion-server <a href="https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-ec2-bastion-server&utm_content="><img align="right" src="https://cloudposse.com/logo-300x69.svg" width="150" /></a>
-<a href="https://github.com/cloudposse/terraform-aws-ec2-bastion-server/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/terraform-aws-ec2-bastion-server.svg" alt="Latest Release"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/badge.svg" alt="Slack Community"/></a>
+<a href="https://github.com/cloudposse/terraform-aws-ec2-bastion-server/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/terraform-aws-ec2-bastion-server.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/terraform-aws-ec2-bastion-server/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/terraform-aws-ec2-bastion-server.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a>
 <!-- markdownlint-restore -->
 
 <!--
@@ -29,7 +29,6 @@
 Terraform module to define a generic Bastion host with parameterized `user_data` and support for AWS SSM Session Manager for remote access with IAM authentication.
 
 
-
 > [!TIP]
 > #### 👽 Use Atmos with Terraform
 > Cloud Posse uses [`atmos`](https://atmos.tools) to easily orchestrate multiple environments using Terraform. <br/>
@@ -40,8 +39,6 @@ Terraform module to define a generic Bastion host with parameterized `user_data`
 > <img src="https://github.com/cloudposse/atmos/blob/master/docs/demo.gif?raw=true"/><br/>
 > <i>Example of running <a href="https://atmos.tools"><code>atmos</code></a> to manage infrastructure from our <a href="https://atmos.tools/quick-start/">Quick Start</a> tutorial.</i>
 > </detalis>
-
-
 
 
 
@@ -171,7 +168,6 @@ Available targets:
 | <a name="output_public_dns"></a> [public\_dns](#output\_public\_dns) | Public DNS of instance (or DNS of EIP) |
 | <a name="output_public_ip"></a> [public\_ip](#output\_public\_ip) | Public IP of the instance (or EIP) |
 | <a name="output_role"></a> [role](#output\_role) | Name of AWS IAM Role associated with the instance |
-| <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | ARN of AWS IAM Role associated with the instance |
 | <a name="output_security_group_arn"></a> [security\_group\_arn](#output\_security\_group\_arn) | Bastion host Security Group ARN |
 | <a name="output_security_group_id"></a> [security\_group\_id](#output\_security\_group\_id) | Bastion host Security Group ID |
 | <a name="output_security_group_ids"></a> [security\_group\_ids](#output\_security\_group\_ids) | IDs on the AWS Security Groups associated with the instance |
@@ -188,23 +184,60 @@ Check out these related projects.
 - [terraform-aws-ec2-instance](https://github.com/cloudposse/terraform-aws-ec2-instance) - Terraform module for providing a general EC2 instance provisioned by Ansible
 - [terraform-aws-ec2-ami-backup](https://github.com/cloudposse/terraform-aws-ec2-ami-backup) - Terraform module for automatic & scheduled AMI creation
 
+
+> [!TIP]
+> #### Use Terraform Reference Architectures for AWS
+>
+> Use Cloud Posse's ready-to-go [terraform architecture blueprints](https://cloudposse.com/reference-architecture/) for AWS to get up and running quickly.
+>
+> ✅ We build it with you.<br/>
+> ✅ You own everything.<br/>
+> ✅ Your team wins.<br/>
+>
+> <a href="https://cpco.io/commercial-support?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-ec2-bastion-server&utm_content=commercial_support"><img alt="Request Quote" src="https://img.shields.io/badge/request%20quote-success.svg?style=for-the-badge"/></a>
+> <details><summary>📚 <strong>Learn More</strong></summary>
+>
+> <br/>
+>
+> Cloud Posse is the leading [**DevOps Accelerator**](https://cpco.io/commercial-support?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-ec2-bastion-server&utm_content=commercial_support) for funded startups and enterprises.
+>
+> *Your team can operate like a pro today.*
+>
+> Ensure that your team succeeds by using Cloud Posse's proven process and turnkey blueprints. Plus, we stick around until you succeed.
+> #### Day-0:  Your Foundation for Success
+> - **Reference Architecture.** You'll get everything you need from the ground up built using 100% infrastructure as code.
+> - **Deployment Strategy.** Adopt a proven deployment strategy with GitHub Actions, enabling automated, repeatable, and reliable software releases.
+> - **Site Reliability Engineering.** Gain total visibility into your applications and services with Datadog, ensuring high availability and performance.
+> - **Security Baseline.** Establish a secure environment from the start, with built-in governance, accountability, and comprehensive audit logs, safeguarding your operations.
+> - **GitOps.** Empower your team to manage infrastructure changes confidently and efficiently through Pull Requests, leveraging the full power of GitHub Actions.
+>
+> <a href="https://cpco.io/commercial-support?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-ec2-bastion-server&utm_content=commercial_support"><img alt="Request Quote" src="https://img.shields.io/badge/request%20quote-success.svg?style=for-the-badge"/></a>
+>
+> #### Day-2: Your Operational Mastery
+> - **Training.** Equip your team with the knowledge and skills to confidently manage the infrastructure, ensuring long-term success and self-sufficiency.
+> - **Support.** Benefit from a seamless communication over Slack with our experts, ensuring you have the support you need, whenever you need it.
+> - **Troubleshooting.** Access expert assistance to quickly resolve any operational challenges, minimizing downtime and maintaining business continuity.
+> - **Code Reviews.** Enhance your team’s code quality with our expert feedback, fostering continuous improvement and collaboration.
+> - **Bug Fixes.** Rely on our team to troubleshoot and resolve any issues, ensuring your systems run smoothly.
+> - **Migration Assistance.** Accelerate your migration process with our dedicated support, minimizing disruption and speeding up time-to-value.
+> - **Customer Workshops.** Engage with our team in weekly workshops, gaining insights and strategies to continuously improve and innovate.
+>
+> <a href="https://cpco.io/commercial-support?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-ec2-bastion-server&utm_content=commercial_support"><img alt="Request Quote" src="https://img.shields.io/badge/request%20quote-success.svg?style=for-the-badge"/></a>
+> </details>
+
 ## ✨ Contributing
 
 This project is under active development, and we encourage contributions from our community.
+
+
+
 Many thanks to our outstanding contributors:
 
 <a href="https://github.com/cloudposse/terraform-aws-ec2-bastion-server/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=cloudposse/terraform-aws-ec2-bastion-server&max=24" />
 </a>
 
-### 🐛 Bug Reports & Feature Requests
-
-Please use the [issue tracker](https://github.com/cloudposse/terraform-aws-ec2-bastion-server/issues) to report any bugs or file feature requests.
-
-### 💻 Developing
-
-If you are interested in being a contributor and want to get involved in developing this project or help out with Cloud Posse's other projects, we would love to hear from you!
-Hit us up in [Slack](https://cpco.io/slack?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-ec2-bastion-server&utm_content=slack), in the `#cloudposse` channel.
+For 🐛 bug reports & feature requests, please use the [issue tracker](https://github.com/cloudposse/terraform-aws-ec2-bastion-server/issues).
 
 In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
  1. Review our [Code of Conduct](https://github.com/cloudposse/terraform-aws-ec2-bastion-server/?tab=coc-ov-file#code-of-conduct) and [Contributor Guidelines](https://github.com/cloudposse/.github/blob/main/CONTRIBUTING.md).
