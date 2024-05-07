@@ -95,7 +95,7 @@ resource "aws_instance" "default" {
 resource "aws_eip" "default" {
   count    = local.eip_enabled ? 1 : 0
   instance = join("", aws_instance.default.*.id)
-  vpc      = true
+  domain   = "vpc"
   tags     = module.this.tags
 }
 
