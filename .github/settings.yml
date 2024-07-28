@@ -1,0 +1,8 @@
+# Upstream changes from _extends are only recognized when modifications are made to this file in the default branch.
+_extends: .github
+repository:
+  name: terraform-aws-ec2-bastion-server
+  description: Terraform module to define a generic Bastion host with parameterized user_data  and support for AWS SSM Session Manager for remote access with IAM authentication.
+  homepage: https://cloudposse.com/accelerate
+  topics: terraform, terraform-modules, aws, bastion, ssm, ssh, session-manager, zerotrust, beyondcorp, jumpbox, jumpserver
+
