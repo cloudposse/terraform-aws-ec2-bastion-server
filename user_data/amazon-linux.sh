@@ -19,6 +19,11 @@ then
     systemctl enable amazon-ssm-agent
     systemctl start amazon-ssm-agent
     systemctl status amazon-ssm-agent
+
+    sudo mkdir -p /etc/amazon/ssm
+    sudo cp -pr /snap/amazon-ssm-agent/current/* /etc/amazon/ssm
+    sudo cp -p /etc/amazon/ssm/seelog.xml.template /etc/amazon/ssm/seelog.xml
+
 else
     systemctl disable amazon-ssm-agent
     systemctl stop amazon-ssm-agent

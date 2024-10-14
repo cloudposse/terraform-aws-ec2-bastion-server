@@ -14,6 +14,13 @@ resource "aws_iam_role" "default" {
   assume_role_policy = data.aws_iam_policy_document.default.json
 }
 
+resource "aws_iam_role_policy_attachment" "existing_policies" {
+  count      = module.this.enabled && length(var.existing_policy_arns) > 0 ? length(var.existing_policy_arns) : 0
+  role       = aws_iam_role.default[0].name
+  policy_arn = var.existing_policy_arns[count.index]
+}
+
+
 resource "aws_iam_role_policy" "main" {
   count  = module.this.enabled && local.create_instance_profile ? 1 : 0
   name   = module.this.id
@@ -96,6 +103,26 @@ data "aws_iam_policy_document" "main" {
 
     actions = [
       "s3:GetEncryptionConfiguration"
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "kms:Decrypt"
+    ]
+
+    resources = [var.kms_key_arn]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "kms:GenerateDataKey"
     ]
 
     resources = ["*"]

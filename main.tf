@@ -86,6 +86,7 @@ resource "aws_instance" "default" {
       volume_size           = var.ebs_block_device_volume_size
       delete_on_termination = var.ebs_delete_on_termination
       device_name           = var.ebs_device_name
+      tags                  = module.this.tags
     }
   }
 
