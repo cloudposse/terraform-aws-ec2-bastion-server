@@ -212,6 +212,12 @@ variable "ebs_device_name" {
   description = "The name of the EBS block device to mount on the instance"
 }
 
+variable "ebs_snapshot_id" {
+  type        = string
+  default     = ""
+  description = "The snapshot id to use for the EBS block device"
+}
+
 variable "instance_profile" {
   type        = string
   description = "A pre-defined profile to attach to the instance (default is to build our own)"
