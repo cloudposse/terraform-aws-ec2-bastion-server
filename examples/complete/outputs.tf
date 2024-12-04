@@ -64,21 +64,26 @@ output "security_group_name" {
 }
 
 output "public_subnet_cidrs" {
-  value = module.subnets.public_subnet_cidrs
+  value       = module.subnets.public_subnet_cidrs
+  description = "Public subnets CIDR"
 }
 
 output "private_subnet_cidrs" {
-  value = module.subnets.private_subnet_cidrs
+  value       = module.subnets.private_subnet_cidrs
+  description = "Private subnets CIDR"
 }
 
 output "vpc_cidr" {
-  value = module.vpc.vpc_cidr_block
+  value       = module.vpc.vpc_cidr_block
+  description = "VPC CIDR"
 }
 
 output "key_name" {
-  value = module.aws_key_pair.key_name
+  value       = module.aws_key_pair.key_name
+  description = "Bastion ssh keypair name"
 }
 
 output "public_key" {
-  value = module.aws_key_pair.public_key
+  value       = module.aws_key_pair.public_key
+  description = "Bastion ssh public key"
 }
