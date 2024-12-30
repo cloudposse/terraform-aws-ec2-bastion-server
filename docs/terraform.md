@@ -54,6 +54,7 @@
 | <a name="input_ebs_block_device_volume_size"></a> [ebs\_block\_device\_volume\_size](#input\_ebs\_block\_device\_volume\_size) | The volume size (in GiB) to provision for the EBS block device. Creation skipped if size is 0 | `number` | `0` | no |
 | <a name="input_ebs_delete_on_termination"></a> [ebs\_delete\_on\_termination](#input\_ebs\_delete\_on\_termination) | Whether the EBS volume should be destroyed on instance termination | `bool` | `true` | no |
 | <a name="input_ebs_device_name"></a> [ebs\_device\_name](#input\_ebs\_device\_name) | The name of the EBS block device to mount on the instance | `string` | `"/dev/sdh"` | no |
+| <a name="input_ebs_snapshot_id"></a> [ebs\_snapshot\_id](#input\_ebs\_snapshot\_id) | The snapshot id to use for the EBS block device | `string` | `""` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
 | <a name="input_host_name"></a> [host\_name](#input\_host\_name) | The Bastion hostname created in Route53 | `string` | `"bastion"` | no |

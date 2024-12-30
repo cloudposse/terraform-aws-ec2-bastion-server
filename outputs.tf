@@ -1,5 +1,5 @@
 output "instance_id" {
-  value       = join("", aws_instance.default.*.id)
+  value       = join("", aws_instance.default[*].id)
   description = "Instance ID"
 }
 
@@ -19,7 +19,7 @@ output "security_group_ids" {
 }
 
 output "role" {
-  value       = join("", aws_iam_role.default.*.name)
+  value       = join("", aws_iam_role.default[*].name)
   description = "Name of AWS IAM Role associated with the instance"
 }
 
@@ -29,18 +29,18 @@ output "role_arn" {
 }
 
 output "public_ip" {
-  value       = concat(aws_eip.default.*.public_ip, aws_instance.default.*.public_ip, [""])[0]
+  value       = concat(aws_eip.default[*].public_ip, aws_instance.default[*].public_ip, [""])[0]
   description = "Public IP of the instance (or EIP)"
 }
 
 output "private_ip" {
-  value       = join("", aws_instance.default.*.private_ip)
+  value       = join("", aws_instance.default[*].private_ip)
   description = "Private IP of the instance"
 }
 
 output "private_dns" {
   description = "Private DNS of instance"
-  value       = join("", aws_instance.default.*.private_dns)
+  value       = join("", aws_instance.default[*].private_dns)
 }
 
 output "public_dns" {
@@ -55,12 +55,12 @@ output "hostname" {
 
 output "id" {
   description = "Disambiguated ID of the instance"
-  value       = join("", aws_instance.default.*.id)
+  value       = join("", aws_instance.default[*].id)
 }
 
 output "arn" {
   description = "ARN of the instance"
-  value       = join("", aws_instance.default.*.arn)
+  value       = join("", aws_instance.default[*].arn)
 }
 
 output "name" {
