@@ -223,3 +223,13 @@ variable "instance_profile" {
   description = "A pre-defined profile to attach to the instance (default is to build our own)"
   default     = ""
 }
+
+variable "additional_iam_policy_statements" {
+  description = "Additional IAM policy statements to attach to the instance role"
+  type = list(object({
+    effect    = string
+    actions   = list(string)
+    resources = list(string)
+  }))
+  default = []
+}
