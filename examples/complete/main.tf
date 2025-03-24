@@ -48,5 +48,13 @@ module "ec2_bastion" {
   vpc_id                      = module.vpc.vpc_id
   associate_public_ip_address = var.associate_public_ip_address
 
+  additional_iam_policy_statements = [
+    {
+      effect    = "Allow"
+      actions   = ["eks:DescribeCluster"]
+      resources = ["*"]
+    },
+  ]
+
   context = module.this.context
 }

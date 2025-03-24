@@ -100,4 +100,14 @@ data "aws_iam_policy_document" "main" {
 
     resources = ["*"]
   }
+
+  # Add additional IAM policy statements if provided
+  dynamic "statement" {
+    for_each = var.additional_iam_policy_statements
+    content {
+      effect    = statement.value.effect
+      actions   = statement.value.actions
+      resources = statement.value.resources
+    }
+  }
 }
