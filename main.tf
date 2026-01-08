@@ -57,6 +57,7 @@ resource "aws_instance" "default" {
   count                       = module.this.enabled ? 1 : 0
   ami                         = coalesce(var.ami, join("", data.aws_ami.default[*].id))
   instance_type               = var.instance_type
+  source_dest_check           = var.source_dest_check
   user_data                   = length(var.user_data_base64) > 0 ? var.user_data_base64 : local.user_data_templated
   vpc_security_group_ids      = compact(concat(module.security_group[*].id, var.security_groups))
   iam_instance_profile        = local.instance_profile

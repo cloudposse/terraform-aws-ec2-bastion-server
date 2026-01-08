@@ -223,3 +223,9 @@ variable "instance_profile" {
   description = "A pre-defined profile to attach to the instance (default is to build our own)"
   default     = ""
 }
+
+variable "source_dest_check" {
+  type        = string
+  description = "Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs."
+  default     = true
+}
