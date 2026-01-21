@@ -20,6 +20,11 @@ variable "subnets" {
   description = "AWS subnet IDs"
 }
 
+variable "availability_zone" {
+  type        = string
+  description = "(Optional) AZ to start the instance in"
+}
+
 variable "user_data" {
   type        = list(string)
   default     = []
