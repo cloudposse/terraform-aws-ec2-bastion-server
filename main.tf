@@ -2,7 +2,6 @@ locals {
   create_instance_profile = module.this.enabled && try(length(var.instance_profile), 0) == 0
   instance_profile        = local.create_instance_profile ? join("", aws_iam_instance_profile.default[*].name) : var.instance_profile
   eip_enabled             = var.associate_public_ip_address && var.assign_eip_address && module.this.enabled
-  security_group_enabled  = module.this.enabled && var.security_group_enabled
   public_dns              = local.eip_enabled ? local.public_dns_rendered : join("", aws_instance.default[*].public_dns)
   public_dns_rendered = local.eip_enabled ? format("ec2-%s.%s.amazonaws.com",
     replace(join("", aws_eip.default[*].public_ip), ".", "-"),
@@ -35,14 +34,26 @@ data "aws_ami" "default" {
 
 module "security_group" {
   source  = "cloudposse/security-group/aws"
-  version = "0.3.3"
+  version = "2.2.0"
 
-  use_name_prefix = var.security_group_use_name_prefix
-  rules           = var.security_group_rules
-  description     = var.security_group_description
-  vpc_id          = var.vpc_id
+  enabled = local.create_security_group
 
-  enabled = local.security_group_enabled
+  security_group_name        = var.security_group_name
+  security_group_description = var.security_group_description
+  vpc_id                     = var.vpc_id
+
+  allow_all_egress = local.allow_all_egress
+  rules_map = {
+    legacy = local.legacy_security_group_rules
+    extra  = var.additional_security_group_rules
+  }
+
+  create_before_destroy      = local.security_group_create_before_destroy
+  preserve_security_group_id = var.preserve_security_group_id
+
+  security_group_create_timeout = var.security_group_create_timeout
+  security_group_delete_timeout = var.security_group_delete_timeout
+
   context = module.this.context
 }
 
@@ -58,7 +69,7 @@ resource "aws_instance" "default" {
   ami                         = coalesce(var.ami, join("", data.aws_ami.default[*].id))
   instance_type               = var.instance_type
   user_data                   = length(var.user_data_base64) > 0 ? var.user_data_base64 : local.user_data_templated
-  vpc_security_group_ids      = compact(concat(module.security_group[*].id, var.security_groups))
+  vpc_security_group_ids      = local.create_security_group ? concat([module.security_group.id], local.associated_security_group_ids) : local.associated_security_group_ids
   iam_instance_profile        = local.instance_profile
   associate_public_ip_address = var.associate_public_ip_address
   key_name                    = var.key_name

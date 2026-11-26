@@ -43,5 +43,10 @@ related:
 description: |-
   Terraform module to define a generic Bastion host with parameterized `user_data` and support for AWS SSM Session Manager for remote access with IAM authentication.
 
+# How to use this project
+usage: |-
+  _**The upgrade to security-group v2 replaces the bastion's security group**. If upgrading from version 0.31.2 or earlier, see
+  [migration notes](https://github.com/cloudposse/terraform-aws-ec2-bastion-server/blob/main/docs/migration-notes-security-group-v2.md) for details._
+
 include: []
 contributors: []
