@@ -3,6 +3,7 @@ package test
 import (
 	"math/rand"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -74,9 +75,9 @@ func TestExamplesComplete(t *testing.T) {
 
 	// Run `terraform output` to get the value of an output variable
 	securityGroupName := terraform.Output(t, terraformOptions, "security_group_name")
-	expectedSecurityGroupName := "eg-test-ec2-bastion-" + randID
-	// Verify we're getting back the outputs we expect
-	assert.Equal(t, expectedSecurityGroupName, securityGroupName)
+	expectedSecurityGroupNamePrefix := "eg-test-ec2-bastion-" + randID + "-"
+	// The security group module adds a unique suffix to the name
+	assert.True(t, strings.HasPrefix(securityGroupName, expectedSecurityGroupNamePrefix), "SG name %q should start with %q", securityGroupName, expectedSecurityGroupNamePrefix)
 
 	// Run `terraform output` to get the value of an output variable
 	securityGroupID := terraform.Output(t, terraformOptions, "security_group_id")

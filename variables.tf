@@ -137,55 +137,10 @@ variable "ssm_enabled" {
   default     = true
 }
 
-variable "security_groups" {
-  type        = list(string)
-  description = "A list of Security Group IDs to associate with bastion host."
-  default     = []
-}
-
-variable "security_group_enabled" {
-  type        = bool
-  description = "Whether to create default Security Group for bastion host."
-  default     = true
-}
-
 variable "security_group_description" {
   type        = string
   default     = "Bastion host security group"
   description = "The Security Group description."
-}
-
-variable "security_group_use_name_prefix" {
-  type        = bool
-  default     = false
-  description = "Whether to create a default Security Group with unique name beginning with the normalized prefix."
-}
-
-variable "security_group_rules" {
-  type = list(any)
-  default = [
-    {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 0
-      protocol    = -1
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Allow all outbound traffic"
-    },
-    {
-      type        = "ingress"
-      protocol    = "tcp"
-      from_port   = 22
-      to_port     = 22
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Allow all inbound to SSH"
-    }
-  ]
-  description = <<-EOT
-    A list of maps of Security Group rules. 
-    The values of map is fully complated with `aws_security_group_rule` resource. 
-    To get more info see https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule .
-  EOT
 }
 
 variable "ebs_block_device_encrypted" {

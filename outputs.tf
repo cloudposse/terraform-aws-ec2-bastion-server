@@ -13,7 +13,7 @@ output "security_group_ids" {
   value = compact(
     concat(
       formatlist("%s", module.security_group.id),
-      var.security_groups
+      local.associated_security_group_ids
     )
   )
 }
